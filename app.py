@@ -17,8 +17,14 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'zxc'
 
+
+################Patient Variable##############################################
+#--------------------------------------------------------------------------------------------------
+
+#--------------------------------------------------------------------------------------------------
 # Intialize MySQL
 mysql = MySQL(app)
+
 
 ################################## Index ##################################
 #--------------------------------------------------------------------------------------------------
@@ -35,11 +41,15 @@ def Patientregister():
         # Create variables for easy access
         username = request.form['username']
         password = request.form['password']
+        session['name']=[username]
+
         email = request.form['email']
         DOB = request.form['DOB']
         phonenumber= request.form['phonenumber']
         country=request.form['country']
         BloodGroup=request.form['BloodGroup']
+        Patient=[username,email,DOB,phonenumber,country,BloodGroup]
+       
 
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -76,6 +86,7 @@ def PatientLogin():
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         # Create variables for easy access
         username = request.form['username']
+        session['name']=username
         password = request.form['password']
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -85,74 +96,36 @@ def PatientLogin():
         # If account exists in accounts table in out database
         if account:
             msg= 'Logged in successfully!'
+            return redirect("PatientProfile")
             Flag=True
            
         else:
             # Account doesnt exist or username/password incorrect
             msg = 'Incorrect username/password!'
     # Show the login form with message (if any)
-    return render_template('PatientLogin.html', msg=msg)
+    return render_template("PatientLogin.html")
+  
 #----------------------------------------------------------------------------------------------------------
 
-############################################## code for chat ##############################################
+############################################## Patient Login #################################################
+@app.route('/PatientProfile', methods=['GET', 'POST'])
+def PatientProfile():
+    data=session['name']
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM accounts WHERE username = %s', (data,))
+    account = cursor.fetchone()
+    name=account['username']
+    email=account['email']
+    dob=account['dob']
+    phoneno=account['phoneno']
+    country=account['country']
+    bloodgroup=account['bloodgroup']
+    return render_template("PatientProfile.html",name=name,email=email,dob=dob,phoneno=phoneno,country=country,bloodgroup=bloodgroup)
+
+############################################## User display page ##############################################
 #----------------------------------------------------------------------------------------------------------
 
-def detect_intent_with_parameters(project_id, session_id, query_params, language_code, user_input):
-    session_client = dialogflow.SessionsClient()
-    session = session_client.session_path(project_id, session_id)
-    text = user_input
-    text_input = dialogflow.types.TextInput(text=text, language_code=language_code)
-    query_input = dialogflow.types.QueryInput(text=text_input)
-    response = session_client.detect_intent(session=session, query_input=query_input, query_params=query_params)
-    return response
 
-
-@app.route('/', methods=["Post"])
-def chat():
-    input_text = request.form['message']
-
-    GOOGLE_AUTHENTICATION_FILE_NAME = "azymee-maeo-ce9345a45db1.json"
-    current_directory = os.path.dirname(os.path.realpath(__file__))
-    path = os.path.join(current_directory, GOOGLE_AUTHENTICATION_FILE_NAME)
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = path
-
-    GOOGLE_PROJECT_ID = "azymee-maeo"
-    session_id = "783028618508"
-    context_short_name = "does_not_matter"
-
-    context_name = "projects/" + GOOGLE_PROJECT_ID + "/agent/sessions/" + session_id + "/contexts/" + context_short_name.lower()
-
-    parameters = dialogflow.types.struct_pb2.Struct()
-
-    context_1 = dialogflow.types.context_pb2.Context(
-        name=context_name,
-        lifespan_count=2,
-        parameters=parameters
-    )
-    query_params_1 = {"contexts": [context_1]}
-
-    language_code = 'en'
-
-    response = detect_intent_with_parameters(
-        project_id=GOOGLE_PROJECT_ID,
-        session_id=session_id,
-        query_params=query_params_1,
-        language_code=language_code,
-        user_input=input_text
-    )
-    result = MessageToDict(response)
-
-    if len(result['queryResult']['fulfillmentMessages']) == 2:
-        response = {"message": result['queryResult']['fulfillmentText'],
-                    "payload": result['queryResult']['fulfillmentMessages'][1]['payload']}
-        x= result['queryResult']['fulfillmentText']
-        return jsonify(response)
-
-    else:
-        response = {"message": result['queryResult']['fulfillmentText'], "payload": None}
-    # response = {"message": result['queryResult']['fulfillmentText'], "payload": None}
-        return jsonify(response)
-    
 #----------------------------------------------------------------------------------------------------------
 
 

@@ -102,3 +102,23 @@ h1{
       font-weight: bold;
       font-size: large;
   }
+
+  .user-data
+  {
+    color: white;
+    padding-top: 4%;
+    display: grid;
+  }
+
+  .chat
+{
+ background-image: linear-gradient(rgb(1, 1, 68),rgb(5, 5, 107),rgb(77, 77, 145)) !important;
+ font-weight:bold;
+
+ color:white;
+ margin-bottom:12px;
+ font-size: x-large;
+ width: auto;
+ padding: inherit;
+ 
+}
