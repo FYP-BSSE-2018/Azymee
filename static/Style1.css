@@ -1,0 +1,92 @@
+
+body
+{
+  background-image: url("background2.jpg");
+background-repeat:no-repeat;
+background-size:cover;
+}
+
+label
+{
+color:rgb(5, 5, 107);
+text-decoration:underline;}
+}
+.img {
+
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width:  250px;
+    height: 250px;
+    background-position: 100% 100%;
+    background-repeat:   no-repeat;
+    background-size:     cover;
+}
+
+.navbar
+{
+
+  background-image: linear-gradient(rgb(1, 1, 68),rgb(5, 5, 107),rgb(77, 77, 145)) !important;
+}
+
+.left-side
+{
+  background-image: linear-gradient(rgb(1, 1, 68),rgb(5, 5, 107),rgb(45, 45, 104)) !important;
+ margin-top: 5% !important;
+  margin-bottom:5% !important;
+  border:3px solid white;
+}
+
+input {
+  border: none;
+  border-bottom: 2px solid black;
+}
+
+.submit
+{
+ background-image: linear-gradient(rgb(1, 1, 68),rgb(5, 5, 107),rgb(77, 77, 145)) !important;
+ font-weight:bold;
+
+ color:white;
+ margin-bottom:12px;
+}
+
+form
+{
+padding-bottom:10px;
+}
+
+.fa
+{
+color:white;
+font-size:300% !important;
+margin-top:18% !important;
+margin-left:10% !important;
+
+}
+
+.phone
+{
+color:white;
+
+}
+
+.emergency
+{
+font-size:300% !important;
+color:red !important;
+background-color:white;
+border-radius:50%
+
+}
+
+.emergency-button
+{
+background-color:white !important;
+border-radius:50%;
+padding-left:5px;
+padding-right:10px;
+border-radius:20px
+
+
+}
