@@ -43,8 +43,8 @@
 
         </div>
           <div class="col-4" style="background-color:white;">
-           <form action="{{ url_for('PatientLogin') }}" method="post" autocomplete="off">
-              <H3 class="Heading">Login</H3>
+           <form action="{{ url_for('DoctorLogin') }}" method="post" autocomplete="off">
+              <H3  class="Heading"> Login</H3>
                <br>
                <br>
               <input type="text" placeholder="Name" id="username" name="username">
@@ -61,8 +61,8 @@
                <br>
 
 				<div class="msg">{{ msg }}</div>
-        <br>
-               <button  class="submit " type="submit" value="DoctorLogin" >Login</button>
+                <br>
+               <button  class="submit " type="submit" value="PatientLogin" >Login</button>
 
 
 

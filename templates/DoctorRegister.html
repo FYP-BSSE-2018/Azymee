@@ -43,20 +43,13 @@
         </div>
           <div class="col-4" style="background-color:white;">
 
-          <form action="{{ url_for('Patientregister') }}" method="post" autocomplete="off">
-				<H3  class="Heading" >Register</H3>
+          <form action="{{ url_for('DoctorRegister') }}" method="post" autocomplete="off">
+				<H3  class="Heading">Register</H3>
 
   <input type="text" name="username" placeholder="Enter First Name" id="username" minlength="4" maxlength="10" required>
                <br>
               <br>
-<label for="DOB">Date of Birth </label>
-             <br>
-             <input type="date" name="DOB" id="DOB" 
-             placeholder="dd-mm-yyyy" value=""
-             min="1997-01-01" max="2030-12-31">
 
-			 <br>
-              <br>
 
 				<input type="password" name="password" placeholder="Password" id="password" required>
                <br>
@@ -322,35 +315,79 @@
               <br>
 
 
-<label for="BloodGroup">Select Blood Group </label>
+<label for="Day">Day </label>
 
-              <select id="BloodGroup" name="BloodGroup">
-    <option>A Positive</option>
-    <option>A Negative</option>
-    <option>A Unknown</option>
-    <option>B Positive</option>
-    <option>B Negative</option>
-    <option>B Unknown</option>
-    <option>AB Positive</option>
-    <option>AB Negative</option>
-    <option>AB Unknown</option>
-    <option>O Positive</option>
-    <option>O Negative</option>
-    <option>O Unknown</option>
-    <option>Unknown</option>
+              <select id="Day" name="Day">
+    <option>Monday</option>
+    <option>Tuesday</option>
+    <option>Wednesday</option>
+    <option>Thursday</option>
+    <option>Friday</option>
+    <option>Saturday</option>
+    <option>Sunday</option>
+  
 </select>
 
 
 
               <br>
 
+            
+
+
+              <label for="Timing">Timing </label>
+              
+                            <select id="Timing" name="Timing">
+                  <option>8-10 AM</option>
+                  <option>10-12 AM</option>
+                  <option>12-3 PM</option>
+                  <option>3-5 PM </option>
+                  <option>5-7 PM</option>
+                  <option>7-10 PM</option>
+               
+                
+              </select>
+              
+              
+              
+                         
+
+
+
+
+<br>           
+   
+
               <INPUT TYPE="Radio" Name="Gender" Value="Male">Male
                 <INPUT TYPE="Radio" Name="Gender" Value="Female">Female
                
               <br>
+              
+              <label for="Special">Special </label>
+              
+                            <select id="Special" name="Special">
+                            <option> Audiologist</option>  
+                            <option>Allergist</option>  
+                            <option> Andrologists </option>  
+                            <option> Anesthesiologist</option>  
+                            <option> Cardiologist </option>  
+                            <option> Cardiovascular Surgeon</option>  
+                            <option> Clinical Neurophysiologist</option>  
+                            <option> Dentist</option>  
+                            <option> Dermatologist</option>  
+                            <option> Emergency Doctors</option>  
+                            <option> Endocrinologist</option>  
+                            <option> Epidemiologists</option>  
+                            <option>ENT Specialist </option>  
+                            <option> Family Practitioner</option>
+                            
+                
+              </select>
+              
 				<div class="msg">{{ msg }}</div>
-        <br>
-               <button  class="submit " type="submit" value="Patientregister" >Sign In</button>
+                <br>
+            <br>
+               <button  class="submit " type="submit" value="DoctorRegister" >Sign In</button>
 
 
 			</form>

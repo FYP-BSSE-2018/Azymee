@@ -90,3 +90,13 @@ border-radius:20px
 
 
 }
+
+.Heading
+{
+
+  color: rgb(1, 1, 68);
+  text-align: center;
+  font-weight: bold;
+  text-decoration: underline;
+ 
+}

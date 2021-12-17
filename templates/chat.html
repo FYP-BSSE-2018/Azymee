@@ -13,23 +13,23 @@
             rel="stylesheet"
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
     />
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
-    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='chatstyle.css') }}"/>
+
 </head>
 <body  >
 
-<div id="body">
 
+<div id="body">
+<nav class="navbar " >
+        <a class="navbar-brand" href="#" style="color:white !important ; display: ruby">
+          <img src="static/homepage/logo.png" width="60" height="60"  alt="">
+      <em> Amzyee</em>
+        </a>
+    </nav>
     <div class="chat-box">
-        <div class="chat-box-header">
-            ChatBot
-            <span class="chat-box-toggle">
-                <i class="material-icons">close</i>
-            </span>
-        </div>
         <div class="chat-box-body" style="height:500px">
             <div class="chat-box-overlay"></div>
-            <div class="chat-logs" ></div>
+            <div class="chat-logs"  ></div>
         </div>
         <div class="chat-input">
             <form >

@@ -26,46 +26,24 @@
 <div class="container mt-5 mb-3 pictures" >
     <center>
       <h1><u>Welcome {{name}} ! </u></h1>
-     
-    
-    <form>
-        <div class="container"  >
-            <br>
-        <div class="row" >
-      <div class="user-data col-8" style="padding-top:4%" >
-            <h5 >Phone Number : {{phoneno}} </h5>
-            
-            <h5 >Email : {{email}} </h5>
-          
-            <h5 >Date Of Birth : {{dob}} </h5>
-        
-            <h5>Country : {{country}} </h5>
-           
-            <h5 >Blood Group : {{bloodgroup}} </h5>
-        </div>
-    
-    <div class="col-4">
-        <img src="static/homepage/logo.png" style="width: 50%; height: 60%;" >
-        <br>
-        <br>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>Date Of Birth</th>
+          <th>Predicted Disease</th>
+          <th>Options</th>
+
+        </tr>
+        <tr>
+          <td>Alfreds Futterkiste</td>
+          <td>Maria Anders</td>
+          <td>Germany</td>
+        </tr>
       
-        <a href="{{ url_for('Chatpage') }}" button type="button" class="chat"  style="color:white !important">Chatbot</a>
-    
-    </div>
-    </div>
-            
-</div>
-          
-           
- 
-   
-   
-    </a>
-        </div>
+      </table>
+      
   
-    
-      </div>
-    </form>
 </div>
 
 
