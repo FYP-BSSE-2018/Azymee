@@ -46,7 +46,9 @@ input {
 {
  background-image: linear-gradient(rgb(1, 1, 68),rgb(5, 5, 107),rgb(77, 77, 145)) !important;
  font-weight:bold;
-
+width: 90%;
+margin-left: 4%;
+margin-right: auto;
  color:white;
  margin-bottom:12px;
 }

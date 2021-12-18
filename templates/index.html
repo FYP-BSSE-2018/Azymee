@@ -38,10 +38,12 @@
                   <br>
                   <br>
                   <h1><u>Patient</u></h1>
-                  <a href="{{ url_for('Patientregister') }}">Register Here</a>
+                    <br>
+                      <button class="login-button"><a href="{{ url_for('PatientLogin') }}">Login</a></button>
+
                   <br>
                   <br>
-                  <a href="{{ url_for('PatientLogin') }}">Login Here</a>
+                 <a class="Register" href="{{ url_for('Patientregister') }}">Register Here</a>
                 
               </div>
             </div>
@@ -63,10 +65,12 @@
                   <br>
                   <br>
                   <h1><u>Doctor</u></h1>
-                  <a href="{{ url_for('DoctorRegister') }}">Register Here</a>
+                    <br>
+                   <button class="login-button"><a href="{{ url_for('DoctorLogin') }}">Login</a></button>
                   <br>
                   <br>
-                  <a href="{{ url_for('DoctorLogin') }}">Login Here</a>
+
+                     <a  class="Register"  href="{{ url_for('DoctorRegister') }}">Register Here</a>
                 
               </div>
             </div>

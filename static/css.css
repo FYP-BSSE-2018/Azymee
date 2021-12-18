@@ -7,6 +7,11 @@ body
   background-size:"cover";
 
 }
+.login-button
+{text-decoration: none;
+padding: 2%;
+width: 50%;
+border: 1px solid blue;}
 input
 {
 	background-color: azure;
@@ -27,6 +32,8 @@ input
 {
  
   background-image: linear-gradient(rgb(1, 1, 68),rgb(5, 5, 107),rgb(77, 77, 145)) !important;
+  padding-top: 0rem !important;
+padding-bottom: 0rem !important;
 }
 
 .pictures
@@ -122,3 +129,7 @@ h1{
  padding: inherit;
  
 }
+
+.Register
+{
+font-size: 90%;}

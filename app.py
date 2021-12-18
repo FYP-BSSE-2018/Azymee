@@ -200,7 +200,7 @@ def PatientLogin():
         if account:
             msg = 'Logged in successfully!'
             return redirect("PatientProfile")
-           
+
 
         else:
             # Account doesnt exist or username/password incorrect
@@ -335,7 +335,7 @@ def chat():
     # get input message from form
     input_text = request.form['message']
 
-    # Google Authentication
+# Google Authentication
     GOOGLE_AUTHENTICATION_FILE_NAME = "azymee-aeuj-070e0a104a03.json"
     current_directory = os.path.dirname(os.path.realpath(__file__))
     path = os.path.join(current_directory, GOOGLE_AUTHENTICATION_FILE_NAME)
@@ -368,12 +368,15 @@ def chat():
     result = MessageToDict(response)
 
     if result['queryResult']['intent']['displayName'] == "Stop-Symptoms":
+        i=0
         num = machinelearning(disease)
         x = ("You are suffering from " + num[0])
-
-        response = {"message": x, "payload": None}
-        # response ={"message": "You are suffering from  "+ num}
-
+        disease="Acne"
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM disease WHERE Disease_Name  = %s', (disease,))
+        Name = cursor.fetchone()
+        print(Name)
+        response = {"message": x}
 
     elif 'symptoms' in result['queryResult']['parameters']:
         disease.append(result['queryResult']['parameters']['symptoms'])
@@ -388,5 +391,12 @@ def chat():
     return jsonify(response)
 
 
+
+
+
+
+
+
 if __name__ == "__main__":
     app.run()
+
