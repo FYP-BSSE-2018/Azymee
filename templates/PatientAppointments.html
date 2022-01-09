@@ -40,10 +40,10 @@
             <thead>
               <tr>
                 <th  scope="col">ID</th>
-                <th  scope="col">Patient Name</th>
-                 <th  scope="col">Date of Birth</th>
-                <th  scope="col">Patient Gender</th>
-                <th  scope="col">Predicted Disease</th>
+                <th  scope="col">Doctor Name</th>
+                <th  scope="col"> Specialization</th>
+                <th  scope="col"> Predicted Disease</th>
+              
                 <th scope="col">Day</th>
                 <th scope="col">Timing</th>
                 <th scope="col">Status</th>
@@ -56,29 +56,21 @@
              {% set y=no+1%}
               {% for x in range(y) %}
               <tr>
-                {%if  appointments[x]['Status']=="Active"%}
-
                 <td> {{x}}</td>
 
-                <td> {{lis[x]['P_Name']}}</td>
-                <td> {{lis[x]['P_DateOfBirth']}}</td>
-                <td> {{lis[x]['P_Gender']}}</td>
-                 <td> {{lis[x]['P_History']}}</td>
-
-
+                <td> {{lis[x]['D_Name']}}</td>
+                 <td> {{lis[x]['Specialization']}}</td>
+                 <td> {{patient['P_History']}}</td>
                 <td> {{appointments[x]['Day']}}</td>
                 <td> {{appointments[x]['Timing']}}</td>
-
-                {% set x=appointments[x]['A_ID']%}
-              
-              
-               <td> <button class="Reject"><b><a href="{{url_for('Delete', id=x)}}">Reject</a></b></button></td>
-                    <td> <button class="Confirm"><b><a href="{{url_for('Confirm', id=x)}}">Confirm</a></b></button></td>
-
-            
-               {% endif %}
+               <td>{{appointments[x]['Status']}} </td>
               </tr>
 
+              {% set x=appointments[x]['A_ID']%}
+              
+              
+              <td> <button class="Reject"><b><a href="{{url_for('Delete', id=x)}}">Reject</a></b></button></td>
+                   <td> <button class="Confirm"><b><a href="{{url_for('Confirm', id=x)}}">Confirm</a></b></button></td>
               {% endfor %}
             </tbody>
           </table>

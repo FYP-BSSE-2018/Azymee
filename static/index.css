@@ -1,0 +1,128 @@
+
+
+body
+{
+  background-image: url("background.jpg");
+  background-repeat: no-repeat;
+  background-size:"cover";
+
+}
+.login-button
+{text-decoration: none;
+padding: 2%;
+width: 50%;
+border: 1px solid blue;}
+input
+{
+	background-color: azure;
+}
+.img {
+  
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width:  250px;
+    height: 250px;
+    background-position: 100% 100%;
+    background-repeat:   no-repeat;
+    background-size:     cover;
+}
+
+
+.pictures
+{padding-top: 2%;
+  border:white 3px solid;
+  background-image: linear-gradient(rgb(1, 1, 68),rgb(5, 5, 107),rgb(77, 77, 145));
+    background-color: rgb(1, 1, 68);
+    padding-bottom: 4%;
+}
+
+h1{
+    color: whitesmoke;
+}
+
+.img :hover {
+    -webkit-transform: scale(1.5);
+	transform: scale(1.5);
+	-webkit-transition: .3s ease-in-out;
+	transition: .3s ease-in-out;
+  }
+  
+/* Remove this if you don't want the 3D effect */
+
+  .flip-card {
+    background-color: transparent;
+    width: 250px;
+    height: 250px;
+    border: 1px solid #f1f1f1;
+    perspective: 1000px; /* Remove this if you don't want the 3D effect */
+  }
+  
+  /* This container is needed to position the front and back side */
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+  
+  /* Do an horizontal flip when you move the mouse over the flip box container */
+  .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+  
+  /* Position the front and back side */
+  .flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+  }
+  
+  /* Style the front side (fallback if image is missing) */
+  .flip-card-front {
+    background-color: #bbb;
+    color: black;
+  }
+  
+  /* Style the back side */
+  .flip-card-back {
+    
+  background-image: linear-gradient(rgb(10, 3, 78),rgb(30, 149, 170),rgb(192, 192, 211)) !important;
+    color: white;
+    transform: rotateY(180deg);
+  }
+
+  a
+  {
+      color:darkblue !important;
+      font-weight: bold;
+      font-size: large;
+  }
+
+  .user-data
+  {
+    color: white;
+    padding-top: 4%;
+    display: grid;
+  }
+
+  .chat
+{
+ background-image: linear-gradient(rgb(1, 1, 68),rgb(5, 5, 107),rgb(77, 77, 145)) !important;
+ font-weight:bold;
+
+ color:white;
+ margin-bottom:12px;
+ font-size: x-large;
+ width: auto;
+ padding: inherit;
+ 
+}
+
+.Register
+{
+font-size: 90%;}

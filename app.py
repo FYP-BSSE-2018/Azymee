@@ -19,11 +19,20 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.neighbors import KNeighborsClassifier
-
+from flask_mail import Mail, Message
 from pyasn1.type.univ import Null
 
 
+
+
 app = Flask(__name__)
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'mariahabib2207@gmail.com'
+app.config['MAIL_PASSWORD'] = 'ehebovcogyccpctc'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app) # instantiate the mail class
 
 # Change this to your secret key (can be anything, it's for extra protection)
 app.secret_key = 'your secret key'
@@ -219,17 +228,50 @@ def PatientProfile():
     cursor.execute('SELECT * FROM patient WHERE P_Name= %s', (data,))
     account = cursor.fetchone()
     name = account['P_Name']
+    id=account['P_ID']
     email = account['P_Email']
     dob = account['P_DateOfBirth']
     phoneno = account['P_Phone']
     country = account['P_Country']
     bloodgroup = account['P_Bloodgroup']
+    
+
     return render_template("PatientProfile.html", name=name, email=email, dob=dob, phoneno=phoneno, country=country,
                            bloodgroup=bloodgroup)
 
 
 ############################################## Doctor Register ##############################################
-# ----------------------------------------------------------------------------------------------------------
+############################################## User display page  #################################################
+@app.route('/P_App', methods=['GET', 'POST'])
+def P_App():
+    data = session['name']
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM patient WHERE P_Name= %s', (data,))
+    account = cursor.fetchone()
+    id=account['P_ID']
+ 
+    no=cursor.execute('SELECT * FROM `appointment` WHERE `P_ID`=%s',(id,))
+    
+    if no==0:
+        return "You don't have any appointments"
+    else:
+        appointments=cursor.fetchall()
+        print(appointments)
+        
+        lis=[]
+        for i in range(no):
+            x=appointments[i]['D_ID']
+            no=cursor.execute('SELECT * FROM `doctor` WHERE `D_ID`=%s', (x,))
+            a=cursor.fetchone()
+            lis.append(a)
+    
+        x=cursor.execute('SELECT * FROM `patient` WHERE `P_ID`=%s', (id,))
+        patient=cursor.fetchone()
+        print(patient['P_History'])
+        return render_template("PatientAppointments.html", appointments =appointments ,lis=lis,no=no,patient=patient)
+
+# --------------------------
+# --------------------------------------------------------------------------------
 
 @app.route('/DoctorRegister', methods=['GET', 'POST'])
 def DoctorRegister():
@@ -238,7 +280,7 @@ def DoctorRegister():
         # Create variables for easy access
         username = request.form['username']
         password = request.form['password']
-        session['name'] = [username]
+        session['d_name'] = [username]
         Gender = ['Gender']
         email = request.form['email']
         Special=request.form['Special']
@@ -284,7 +326,7 @@ def DoctorLogin():
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         # Create variables for easy access
         username = request.form['username']
-        session['name'] = username
+        session['d_name'] = username
         password = request.form['password']
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -294,10 +336,7 @@ def DoctorLogin():
         # If account exists in accounts table in out database
         if account:
             msg = 'Logged in successfully!'
-            return redirect("DoctorProfile.html")
-           
-        
-
+            return redirect("DoctorProfile")
         else:
             # Account doesnt exist or username/password incorrect
             msg = 'Incorrect username/password!'
@@ -306,11 +345,87 @@ def DoctorLogin():
 # ----------------------------------------------------------------------------------------------------------
 
 ############################################## Doctor Profile ##############################################
-@app.route('/DoctortProfile', methods=['GET', 'POST'])
+# ----------------------------------------------------------------------------------------------------------
+
+@app.route('/DoctorProfile', methods=['GET', 'POST'])
 def DoctorProfile():
-    name = session['name']
-    
-    return render_template("PatientProfile.html")
+   
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    name=session['d_name'] 
+    print(name)
+    cursor.execute('SELECT D_ID FROM doctor WHERE D_Name= %s', (name,))
+    D_ID=cursor.fetchone()
+    D_ID=D_ID['D_ID']
+    print(D_ID)
+    no=cursor.execute('SELECT * FROM `appointment` WHERE `D_ID`=%s',(D_ID,))
+    if no==0:
+        return "You don't have any appointments"
+    else:
+        appointments=cursor.fetchall()
+        
+        lis=[]
+        for i in range(no):
+            x=appointments[i]['P_ID']
+            no=cursor.execute('SELECT * FROM `patient` WHERE `P_ID`=%s', (x,))
+            a=cursor.fetchone()
+            lis.append(a)
+        return render_template("DoctorProfile.html", appointments =appointments ,lis=lis,no=no)
+
+@app.route("/Reject/<int:id>")
+def Reject(id):
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    status="Active"
+    cursor.execute("UPDATE appointment SET Status =%s WHERE appointment.A_ID = %s",(status,id,))
+    mysql.connection.commit()
+    patient=cursor.execute("SELECT * FROM `appointment` WHERE `A_ID`=%s ",(id,))
+    cursor.execute("SELECT * FROM `patient` WHERE `P_ID`=%s ",(patient,))
+    patientDetails=cursor.fetchone()
+
+
+    msg = Message(
+    'Hello ' + patientDetails['P_Name'],sender='mariahabib2207@gmail.com',recipients=[patientDetails['P_Email']] )
+    msg.body="Your appointment has been cancelled"
+    mail.send(msg)
+    return "Appointment has been Rejected"
+
+@app.route("/Confirm/<int:id>")
+def Confirm(id):
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        status = "Confirmed"
+        cursor.execute("UPDATE appointment SET Status =%s WHERE appointment.A_ID = %s", (status, id,))
+        mysql.connection.commit()
+        patient = cursor.execute("SELECT * FROM `appointment` WHERE `A_ID`=%s ", (id,))
+        cursor.execute("SELECT * FROM `patient` WHERE `P_ID`=%s ", (patient,))
+        patientDetails = cursor.fetchone()
+
+
+        msg = Message(
+            'Hello ' + patientDetails['P_Name'], sender='mariahabib2207@gmail.com',
+            recipients=[patientDetails['P_Email']])
+        msg.body = "Your appointment has been Confirmed"
+        mail.send(msg)
+
+
+
+        return "Appointment has been Confirmed"
+
+@app.route("/Delete/<int:id>")
+def Delete(id):
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("DELETE appointment WHERE appointment.A_ID = %s",(id,))
+    mysql.connection.commit()
+    patient=cursor.execute("SELECT * FROM `appointment` WHERE `A_ID`=%s ",(id,))
+    cursor.execute("SELECT * FROM `patient` WHERE `P_ID`=%s ",(patient,))
+    patientDetails=cursor.fetchone()
+
+
+    msg = Message(
+    'Hello ' + patientDetails['P_Name'],sender='mariahabib2207@gmail.com',recipients=[patientDetails['P_Email']] )
+    msg.body="Your appointment has been Deleted"
+    mail.send(msg)
+    return "Appointment has been Deleted"
+
+# ----------------------------------------------------------------------------------------------------------
 
 ############################################## Chat Code  ##############################################
 
@@ -371,12 +486,10 @@ def chat():
         i=0
         num = machinelearning(disease)
         x = ("You are suffering from " + num[0])
-        disease="Acne"
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM disease WHERE Disease_Name  = %s', (disease,))
-        Name = cursor.fetchone()
-        print(Name)
         response = {"message": x}
+
 
     elif 'symptoms' in result['queryResult']['parameters']:
         disease.append(result['queryResult']['parameters']['symptoms'])

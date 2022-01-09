@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="static/style1.css">
-     <link rel="stylesheet" href="{{ url_for('static', filename = 'style1.css') }}"/>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename = 'Forms.css') }}"/>
+     <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}"/>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -13,7 +14,7 @@
   <body >
 
     <nav class="navbar ">
-      <a class="navbar-brand" href="#" style="color:white !important">
+      <a class="navbar-brand" href="#" >
         <img src="static/homepage/logo.png" width="60" height="60"  alt="">
     <em> Amzyee</em>
       </a>
@@ -28,14 +29,8 @@
 
         <div class="col-6 left-side" >
 <div class="phone">
-<i class="fa fa-phone" aria-hidden="true"> </i>
-            +923209045947
+  <img  class="left-image" src="static/homepage/logo.png" width="60" height="60"  alt="">
 
-
-    <br>
-    <i class="fa fa-envelope" ></i> mariahabib2207@gmail.com
-<br>
-    <br>
     <br>
   <center><button class="emergency-button" > <i class="fa  emergency fa-phone" aria-hidden="true"></i></button></center>
 </div>
@@ -366,20 +361,24 @@
               <label for="Special">Special </label>
               
                             <select id="Special" name="Special">
-                            <option> Audiologist</option>  
-                            <option>Allergist</option>  
-                            <option> Andrologists </option>  
-                            <option> Anesthesiologist</option>  
-                            <option> Cardiologist </option>  
-                            <option> Cardiovascular Surgeon</option>  
-                            <option> Clinical Neurophysiologist</option>  
-                            <option> Dentist</option>  
-                            <option> Dermatologist</option>  
-                            <option> Emergency Doctors</option>  
-                            <option> Endocrinologist</option>  
-                            <option> Epidemiologists</option>  
-                            <option>ENT Specialist </option>  
-                            <option> Family Practitioner</option>
+                              <option value="Endocrinologists">Endocrinologists</option>
+                              <option value="Audiologist">Audiologist</option>
+                              <option value="Cardiologist">Cardiologist</option>
+                              <option value="Dermatologist">Dermatologist</option>
+                              <option value="Gastroenterologist">Gastroenterologist</option>
+                              <option value="Hepatologists">Hepatologists</option>
+                              <option value="Immunologists">Immunologists</option>
+                              <option value="Infectious Diseases">Infectious Diseases</option>
+                              <option value="Medical specialist">Medical specialist</option>
+                              <option value="Neurologist">Neurologist</option>
+                              <option value="Podiatrist">Podiatrist</option>
+                              <option value="Pulmonologist">Pulmonologist</option>
+                              <option value="Rheumatologists">Rheumatologists</option>
+                              <option value="Urology">Urology</option>
+                              <option value="Vascular Surgeon">Vascular Surgeon</option>
+                              
+
+                    
                             
                 
               </select>

@@ -1,9 +1,10 @@
 from sklearn.tree import DecisionTreeClassifier
-import  warnings
+import warnings
+from sklearn.metrics import classification_report , confusion_matrix
 warnings.filterwarnings('ignore')
 import os
 from sklearn import datasets, linear_model, metrics
-from sklearn.svm import SVC # "Support vector classifier
+from sklearn.svm import SVC  # "Support vector classifier
 
 import numpy as np
 
@@ -23,8 +24,7 @@ x = df[cols]
 y = df['prognosis']
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.33, random_state=42)
 
-
-#Decision Tree ....Calling Classifier and Fitting data for training
+# Decision Tree ....Calling Classifier and Fitting data for training
 dt = DecisionTreeClassifier()
 dt.fit(x_train, y_train)
 
@@ -33,33 +33,28 @@ dt.fit(x_train, y_train)
 ## SVM
 classifier = SVC(kernel='linear', random_state=0)
 classifier.fit(x_train, y_train)
-#Random Forest
-rf = RandomForestClassifier(n_estimators=100, criterion = 'gini', max_depth = 6,
-                            max_features = 'auto', random_state=0)
+
+# Random Forest
+rf = RandomForestClassifier(n_estimators=100, criterion='gini', max_depth=6,
+                            max_features='auto', random_state=0)
 rf.fit(x_train, y_train)
 
-
-#knn
+# knn
 knnclf = KNeighborsClassifier()
 
-
 # Fitting K-NN to the Training set
-knnClassifier = KNeighborsClassifier(n_neighbors = 2)
+knnClassifier = KNeighborsClassifier(n_neighbors=2)
 knnClassifier.fit(x_train, y_train)
 
-#Naive Bayes
+# Naive Bayes
 gnb = GaussianNB()
 gnb.fit(x_train, y_train)
 
-
-
-#To create a dictionary from two sequences, use the dict() and zip() so it creates dictionary of symptoms and indices
+# To create a dictionary from two sequences, use the dict() and zip() so it creates dictionary of symptoms and indices
 indices = [i for i in range(132)]
 symptoms = df.columns.values[:-1]
 
-dictionary = dict(zip(symptoms,indices))
-
-
+dictionary = dict(zip(symptoms, indices))
 
 
 # Functions
@@ -74,34 +69,29 @@ def dosomething(symptom):
     # Creating np array
     user_input_label = np.array(user_input_label)
     # Changing 1D array to 2D array
-    user_input_label = user_input_label.reshape((-1,1)).transpose()
-
+    user_input_label = user_input_label.reshape((-1, 1)).transpose()
 
     # Predicting values
-    DecisionTree=dt.predict(user_input_label)
+    DecisionTree = dt.predict(user_input_label)
 
 
-    RandomForest=rf.predict(user_input_label)
-
+    RandomForest = rf.predict(user_input_label)
 
     y_pred = knnClassifier.predict(user_input_label)
-
 
     Naive = gnb.predict(user_input_label)
 
     SVM = classifier.predict(user_input_label)
-    return(DecisionTree,RandomForest,y_pred,Naive,SVM)
-
-
+    ## confusion matrix for knn
+    print(confusion_matrix(y_test, y_pred))
+    print (classification_report(y_test, y_pred))
+    return (DecisionTree, RandomForest, y_pred, Naive, SVM)
 
 
 ### Predicting Diseases
-prediction=(dosomething(['headache','nausea','puffy_face_and_eyes','constipation','skin_rash']))
-print("DecisionTree : " ,prediction[0])
-print("Random Forest : " ,prediction[1])
-print("KNN : " ,prediction[2])
-print("Naive: " ,prediction[3])
-print("SVM: " ,prediction[4])
-
-
-
+prediction = (dosomething(['headache', 'nausea', 'puffy_face_and_eyes', 'constipation', 'skin_rash']))
+print("DecisionTree : ", prediction[0])
+print("Random Forest : ", prediction[1])
+print("KNN : ", prediction[2])
+print("Naive: ", prediction[3])
+print("SVM: ", prediction[4])

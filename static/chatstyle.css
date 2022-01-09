@@ -4,11 +4,7 @@ body {
     background-image:url("R.png");
     background-size:cover;
 }
-.navbar
-{
 
-  background-image: linear-gradient(rgb(1, 1, 68),rgb(5, 5, 107),rgb(77, 77, 145)) !important;
-}
 #center-text {
     display: flex;
     flex: 1;
@@ -58,7 +54,7 @@ body {
 .chat-box {
     display: inline;
     background: #efefef;
-
+ 
     right: 30px;
     bottom: 50px;
     width: 350px;
@@ -96,6 +92,8 @@ body {
     height: 370px;
     border: 1px solid #ccc;
     overflow: hidden;
+    width: 30%;
+    margin-left: 65%;
 }
 
 
@@ -116,6 +114,8 @@ body {
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     overflow: hidden;
+    width: 30%;
+margin-left: 65%;
 }
 
 .chat-input > form {

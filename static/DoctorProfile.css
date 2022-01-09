@@ -1,0 +1,28 @@
+.Confirm
+{
+    background-color: green;
+    color: white;
+}
+
+.Reject
+{
+    background-color: red;
+    color: white;
+}
+
+table
+{
+    color: white !important;
+}
+
+h1
+{
+    color: white !important;
+
+}
+
+a
+{
+    text-decoration: none !important;
+    color: white !important;
+}

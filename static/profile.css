@@ -7,6 +7,18 @@ body
   background-size:"cover";
 
 }
+
+.profile-button
+{
+
+    margin-right: 5%;
+    background-color: #3f8ca4;
+    border-radius: 15%;
+    padding-left: 2%;
+    padding-right: 2%;
+    color: white;
+  
+}
 input
 {
 	background-color: azure;
@@ -23,11 +35,7 @@ input
     background-size:     cover;
 }
 
-.navbar
-{
- 
-  background-image: linear-gradient(rgb(1, 1, 68),rgb(5, 5, 107),rgb(77, 77, 145)) !important;
-}
+
 
 .pictures
 {padding-top: 2%;
@@ -41,60 +49,6 @@ h1{
     color: whitesmoke;
 }
 
-.img :hover {
-    -webkit-transform: scale(1.5);
-	transform: scale(1.5);
-	-webkit-transition: .3s ease-in-out;
-	transition: .3s ease-in-out;
-  }
-  
-/* Remove this if you don't want the 3D effect */
-
-  .flip-card {
-    background-color: transparent;
-    width: 250px;
-    height: 250px;
-    border: 1px solid #f1f1f1;
-    perspective: 1000px; /* Remove this if you don't want the 3D effect */
-  }
-  
-  /* This container is needed to position the front and back side */
-  .flip-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.8s;
-    transform-style: preserve-3d;
-  }
-  
-  /* Do an horizontal flip when you move the mouse over the flip box container */
-  .flip-card:hover .flip-card-inner {
-    transform: rotateY(180deg);
-  }
-  
-  /* Position the front and back side */
-  .flip-card-front, .flip-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    -webkit-backface-visibility: hidden; /* Safari */
-    backface-visibility: hidden;
-  }
-  
-  /* Style the front side (fallback if image is missing) */
-  .flip-card-front {
-    background-color: #bbb;
-    color: black;
-  }
-  
-  /* Style the back side */
-  .flip-card-back {
-    
-  background-image: linear-gradient(rgb(10, 3, 78),rgb(30, 149, 170),rgb(192, 192, 211)) !important;
-    color: white;
-    transform: rotateY(180deg);
-  }
 
   a
   {
@@ -102,3 +56,132 @@ h1{
       font-weight: bold;
       font-size: large;
   }
+
+  body {
+    font-family: "Lato", sans-serif;
+  }
+  
+  .sidenav {
+    display: none;
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    
+    overflow-x: hidden;
+    padding-top: 60px;
+    background: linear-gradient(194deg, #1ed0a2, #3452b2, #1a255f);
+    background-size: 600% 600%;
+
+    -webkit-animation: sidenav 5s ease infinite;
+    -moz-animation: sidenav 5s ease infinite;
+    animation: sidenav 5s ease infinite;
+    display: block;
+color: white !important;
+padding: 2% !important;  
+    padding-top: 2% !important;
+width: 25% !important;
+padding-top: 8% !important;
+  }
+  
+  .main
+  {
+    height: 30% !important;
+    width:30% !important;
+  }
+  .sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+  }
+  
+  .sidenav a:hover {
+    color: #f1f1f1;
+  }
+  
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  }
+
+ 
+
+
+@-webkit-keyframes sidenav {
+    0%{background-position:11% 0%}
+    50%{background-position:90% 100%}
+    100%{background-position:11% 0%}
+}
+@-moz-keyframes sidenav {
+    0%{background-position:11% 0%}
+    50%{background-position:90% 100%}
+    100%{background-position:11% 0%}
+}
+@keyframes sidenav {
+    0%{background-position:11% 0%}
+    50%{background-position:90% 100%}
+    100%{background-position:11% 0%}
+}
+
+h5
+{
+  padding: 2%;
+}
+
+.Confirm
+{
+    background-color: green;
+    color: white;
+}
+
+.Reject
+{
+    background-color: red;
+    color: white;
+}
+
+table
+{
+    color: white !important;
+}
+
+h1
+{
+    color: white !important;
+
+}
+
+a
+{
+    text-decoration: none !important;
+    color: white !important;
+}
+
+.chat
+{
+color: #100e42 !important;
+background: white;
+border-radius: 15%;
+padding: 2%;
+}
+
+.app
+{
+  
+    color: white !important;
+    background: #e81919;
+    border-radius: 15%;
+    padding: 2%;
+}

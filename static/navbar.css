@@ -1,0 +1,19 @@
+
+
+
+.pictures
+{padding-top: 2%;
+  border:white 3px solid;
+  background-image: linear-gradient(rgb(1, 1, 68),rgb(5, 5, 107),rgb(77, 77, 145)) !important;
+    background-color: rgb(1, 1, 68) !important;
+    padding-bottom: 4% !important;
+}
+
+
+.navbar
+{
+
+  background-image: linear-gradient(rgb(1, 1, 68),rgb(5, 5, 107),rgb(77, 77, 145)) !important;
+  padding-top: 0% !important;
+  padding-bottom: 0% !important;
+}
