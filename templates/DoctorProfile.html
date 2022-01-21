@@ -53,8 +53,8 @@
             </thead>
 
             <tbody>
-             {% set y=no+1%}
-              {% for x in range(y) %}
+             {% set y=no %}
+              {% for x in range(y)  %}
               <tr>
                 {%if  appointments[x]['Status']=="Active"%}
 
@@ -72,7 +72,7 @@
                 {% set x=appointments[x]['A_ID']%}
               
               
-               <td> <button class="Reject"><b><a href="{{url_for('Delete', id=x)}}">Reject</a></b></button></td>
+               <td> <button class="Reject"><b><a href="{{url_for('Reject', id=x)}}">Reject</a></b></button></td>
                     <td> <button class="Confirm"><b><a href="{{url_for('Confirm', id=x)}}">Confirm</a></b></button></td>
 
             

@@ -74,8 +74,13 @@ body {
 }
 
 .chat-box-header {
-    background: #5a5eb9;
+ 
+    background: #171b59;
     height: 60px;
+    width: 30%;
+
+margin-left: 65%;
+margin-top: 1%;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     color: white;
@@ -89,11 +94,12 @@ body {
 
 .chat-box-body {
     position: relative;
-    height: 370px;
+    height: 250px;
     border: 1px solid #ccc;
     overflow: hidden;
     width: 30%;
     margin-left: 65%;
+    background-color: currentColor;
 }
 
 

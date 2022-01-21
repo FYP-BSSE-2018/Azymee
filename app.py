@@ -1,38 +1,36 @@
+from pydoc import doc
+from tokenize import Special
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
-import re
-import os
 import dialogflow
 from flask import Flask, request, jsonify, render_template
 from google.protobuf.json_format import MessageToDict
 from sklearn.tree import DecisionTreeClassifier
-import  warnings
+import warnings
+
+from sqlalchemy import String
 warnings.filterwarnings('ignore')
 import os
 from sklearn import datasets, linear_model, metrics
-from sklearn.svm import SVC # "Support vector classifier
-
+from sklearn.svm import SVC  # "Support vector classifier
 import numpy as np
-
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.neighbors import KNeighborsClassifier
 from flask_mail import Mail, Message
 from pyasn1.type.univ import Null
-
-
-
-
+from Modules import RegistationAndLogin
+from Modules import appointx
 app = Flask(__name__)
-app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = 'mariahabib2207@gmail.com'
 app.config['MAIL_PASSWORD'] = 'ehebovcogyccpctc'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
-mail = Mail(app) # instantiate the mail class
+mail = Mail(app)  # instantiate the mail class
 
 # Change this to your secret key (can be anything, it's for extra protection)
 app.secret_key = 'your secret key'
@@ -42,12 +40,12 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'azymee1'
-
+# Intialize MySQL
+mysql = MySQL(app)
 disease = []
 
 
-################ Prediction ##############################################
-# --------------------------------------------------------------------------------------------------
+################################---- Prediction ----################################
 def machinelearning(disease):
     ##Reading data set and seperating independent and dependent variables
     data = pd.read_csv("Testing.csv")
@@ -125,306 +123,139 @@ def machinelearning(disease):
     return num
 
 
-# --------------------------------------------------------------------------------------------------
-# Intialize MySQL
-mysql = MySQL(app)
-
-#################################Render Chatpage ##################
+################################----Render Chatpage ----################################
 
 @app.route("/Chatpage")
 def Chatpage():
     return render_template("chat.html")
 
 
-################################## Index ##################################
-# --------------------------------------------------------------------------------------------------
+################################---- Index ----################################
 @app.route("/")
 def index():
     return render_template("index.html")
 
 
-############################################## Patient Register ##############################################
-# -------------------------------------------------------------------------------------------------------
+################################---- Patient Register ----################################
 @app.route('/PatientRegister', methods=['GET', 'POST'])
 def Patientregister():
-    msg = ''
-    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form and 'DOB' in request.form and 'phonenumber' in request.form and 'country' in request.form and 'BloodGroup' in request.form and 'Gender' in request.form:
-        # Create variables for easy access
-        username = request.form['username']
-        password = request.form['password']
-        session['name'] = [username]
-        Gender = ['Gender']
-        email = request.form['email']
-        DOB = request.form['DOB']
-        phonenumber = request.form['phonenumber']
-        country = request.form['country']
-        BloodGroup = request.form['BloodGroup']
-
-        # Check if account exists using MySQL
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM patient WHERE P_Name = %s', (username,))
-        account = cursor.fetchone()
-        # If account exists show error and validation checks
-        if account:
-            msg = 'Account already exists!'
-        elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
-            msg = 'Invalid email address!'
-        elif not re.match(r'[A-Za-z0-9]+', username):
-            msg = 'Username must contain only characters and numbers!'
-        elif not username or not password or not email or not DOB or not phonenumber or not country or not BloodGroup or not Gender:
-            msg = 'Please fill out the form!'
-        else:
-            # Account doesnt exists and the form data is valid, now insert new account into accounts table
-            cursor.execute('INSERT INTO patient VALUES (NUll, %s, %s, %s,%s, %s, %s,%s,%s,NULL,NULL)',
-                           (username, email, password, Gender, phonenumber, BloodGroup, DOB, country))
-
-            mysql.connection.commit()
-            msg = 'You have successfully registered!'
-    elif request.method == 'POST':
-        # Form is empty... (no POST data)
-        msg = 'Please fill out the form!'
+    msg = RegistationAndLogin.Patientregisterx()
     return render_template('PatientRegister.html', msg=msg)
 
 
-# ----------------------------------------------------------------------------------------------------------
+################################---- Patient Login ----################################
 
-############################################## Patient Login ##############################################
-# -------------------------------------------------------------------------------------------------------
 @app.route('/PatientLogin', methods=['GET', 'POST'])
 def PatientLogin():
-    # Output message if something goes wrong...
     msg = ''
-    # Check if "username" and "password" POST requests exist (user submitted form)
-    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
-        # Create variables for easy access
-        username = request.form['username']
-        session['name'] = username
-        password = request.form['password']
-        # Check if account exists using MySQL
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM patient WHERE P_Name = %s AND P_Password	 = %s', (username, password,))
-        # Fetch one record and return result
-        account = cursor.fetchone()
-        # If account exists in accounts table in out database
-        if account:
-            msg = 'Logged in successfully!'
-            return redirect("PatientProfile")
+    a = RegistationAndLogin.PatientLoginx()
+    if a == True:
+        msg = 'Logged in successfully!'
+        return redirect("PatientProfile")
+    if a == False:
+        msg = 'Incorrect username/password!'
+
+    return render_template("PatientLogin.html", msg=msg)
 
 
-        else:
-            # Account doesnt exist or username/password incorrect
-            msg = 'Incorrect username/password!'
-    # Show the login form with message (if any)
-    return render_template("PatientLogin.html")
-
-
-# ----------------------------------------------------------------------------------------------------------
-
-############################################## User display page  #################################################
+##############################################---- User display page ---- #################################################
 @app.route('/PatientProfile', methods=['GET', 'POST'])
 def PatientProfile():
     data = session['name']
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT * FROM patient WHERE P_Name= %s', (data,))
-    account = cursor.fetchone()
-    name = account['P_Name']
-    id=account['P_ID']
-    email = account['P_Email']
-    dob = account['P_DateOfBirth']
-    phoneno = account['P_Phone']
-    country = account['P_Country']
-    bloodgroup = account['P_Bloodgroup']
-    
-
+    name,email,dob, phoneno, country,bloodgroup=RegistationAndLogin.PatientProfilex()
     return render_template("PatientProfile.html", name=name, email=email, dob=dob, phoneno=phoneno, country=country,
                            bloodgroup=bloodgroup)
 
 
-############################################## Doctor Register ##############################################
-############################################## User display page  #################################################
+###################################---User display page --- #########################################
 @app.route('/P_App', methods=['GET', 'POST'])
 def P_App():
     data = session['name']
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT * FROM patient WHERE P_Name= %s', (data,))
-    account = cursor.fetchone()
-    id=account['P_ID']
- 
-    no=cursor.execute('SELECT * FROM `appointment` WHERE `P_ID`=%s',(id,))
-    
-    if no==0:
-        return "You don't have any appointments"
-    else:
-        appointments=cursor.fetchall()
-        print(appointments)
-        
-        lis=[]
-        for i in range(no):
-            x=appointments[i]['D_ID']
-            no=cursor.execute('SELECT * FROM `doctor` WHERE `D_ID`=%s', (x,))
-            a=cursor.fetchone()
-            lis.append(a)
-    
-        x=cursor.execute('SELECT * FROM `patient` WHERE `P_ID`=%s', (id,))
-        patient=cursor.fetchone()
-        print(patient['P_History'])
-        return render_template("PatientAppointments.html", appointments =appointments ,lis=lis,no=no,patient=patient)
+    no,Names, Special,Day,Timing,Status,Diseases,ID=appointx.Patient(data)
+    return render_template("PatientAppointments.html",no=no,Names=Names, Special=Special,Day=Day,Timing=Timing,Status=Status,Diseases=Diseases,ID=ID)
 
-# --------------------------
-# --------------------------------------------------------------------------------
 
+###################################---User display page --- #########################################
 @app.route('/DoctorRegister', methods=['GET', 'POST'])
 def DoctorRegister():
-    msg = ''
-    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form and 'phonenumber' in request.form and 'country' in request.form and 'Day' in request.form and 'Gender' in request.form and 'Timing' in request.form and 'Special' in request.form:
-        # Create variables for easy access
-        username = request.form['username']
-        password = request.form['password']
-        session['d_name'] = [username]
-        Gender = ['Gender']
-        email = request.form['email']
-        Special=request.form['Special']
-       
-        phonenumber = request.form['phonenumber']
-        country = request.form['country']
-        Timing=request.form['Timing']
-        Day=request.form['Day']
-       
-
-        # Check if account exists using MySQL
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM doctor WHERE D_Name = %s', (username,))
-        account = cursor.fetchone()
-        # If account exists show error and validation checks
-        if account:
-            msg = 'Account already exists!'
-        elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
-            msg = 'Invalid email address!'
-        elif not re.match(r'[A-Za-z0-9]+', username):
-            msg = 'Username must contain only characters and numbers!'
-        elif not username or not password or not email or not phonenumber or not country or not Timing or not Gender or not Day:
-            msg = 'Please fill out the form!'
-        else:
-            # Account doesnt exists and the form data is valid, now insert new account into accounts table
-            cursor.execute('INSERT INTO doctor VALUES (NUll, %s, %s, %s,%s, %s, %s,%s,%s,NULL,%s)',
-                           (username, email, password, Gender, phonenumber, country,Timing,Day,Special))
-
-            mysql.connection.commit()
-            msg = 'You have successfully registered!'
-    elif request.method == 'POST':
-        # Form is empty... (no POST data)
-        msg = 'Please fill out the form!'
+   # msg = ''
+    msg = RegistationAndLogin.DoctorRegisterx()
     return render_template('DoctorRegister.html', msg=msg)
+
 
 # ----------------------------------------------------------------------------------------------------------
 ############################################## Doctor Login ##############################################
+from Modules import RegistationAndLogin
 @app.route('/DoctortLogin', methods=['GET', 'POST'])
 def DoctorLogin():
-    # Output message if something goes wrong...
     msg = ''
-    # Check if "username" and "password" POST requests exist (user submitted form)
-    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
-        # Create variables for easy access
-        username = request.form['username']
-        session['d_name'] = username
-        password = request.form['password']
-        # Check if account exists using MySQL
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM doctor WHERE D_Name = %s AND D_Pass = %s', (username, password,))
-        # Fetch one record and return result
-        account = cursor.fetchone()
-        # If account exists in accounts table in out database
-        if account:
-            msg = 'Logged in successfully!'
-            return redirect("DoctorProfile")
-        else:
-            # Account doesnt exist or username/password incorrect
-            msg = 'Incorrect username/password!'
-    # Show the login form with message (if any)
-    return render_template("DoctorLogin.html",msg=msg)
-# ----------------------------------------------------------------------------------------------------------
+    a = RegistationAndLogin.DoctorLoginx()
+    if a:
+        msg = "logged in"
+        return redirect("DoctorProfile")
+    if not a:
+        msg = "Incorrect Username/ Password"
+
+    return render_template("DoctorLogin.html", msg=msg)
 
 ############################################## Doctor Profile ##############################################
 # ----------------------------------------------------------------------------------------------------------
 
 @app.route('/DoctorProfile', methods=['GET', 'POST'])
 def DoctorProfile():
-   
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    name=session['d_name'] 
-    print(name)
-    cursor.execute('SELECT D_ID FROM doctor WHERE D_Name= %s', (name,))
-    D_ID=cursor.fetchone()
-    D_ID=D_ID['D_ID']
-    print(D_ID)
-    no=cursor.execute('SELECT * FROM `appointment` WHERE `D_ID`=%s',(D_ID,))
+    name = session['d_name']
+    appointments, lis, no=RegistationAndLogin.DoctorProfilex(name)
     if no==0:
-        return "You don't have any appointments"
+        return "You dont have any appointments"
     else:
-        appointments=cursor.fetchall()
-        
-        lis=[]
-        for i in range(no):
-            x=appointments[i]['P_ID']
-            no=cursor.execute('SELECT * FROM `patient` WHERE `P_ID`=%s', (x,))
-            a=cursor.fetchone()
-            lis.append(a)
-        return render_template("DoctorProfile.html", appointments =appointments ,lis=lis,no=no)
-
+        return render_template("DoctorProfile.html", appointments=appointments, lis=lis, no=no)
+######################################################################################
 @app.route("/Reject/<int:id>")
 def Reject(id):
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    status="Active"
-    cursor.execute("UPDATE appointment SET Status =%s WHERE appointment.A_ID = %s",(status,id,))
-    mysql.connection.commit()
-    patient=cursor.execute("SELECT * FROM `appointment` WHERE `A_ID`=%s ",(id,))
-    cursor.execute("SELECT * FROM `patient` WHERE `P_ID`=%s ",(patient,))
-    patientDetails=cursor.fetchone()
-
-
-    msg = Message(
-    'Hello ' + patientDetails['P_Name'],sender='mariahabib2207@gmail.com',recipients=[patientDetails['P_Email']] )
-    msg.body="Your appointment has been cancelled"
-    mail.send(msg)
-    return "Appointment has been Rejected"
+    a=appointx.Rejectx(id)
+    return redirect('/DoctorProfile')
 
 @app.route("/Confirm/<int:id>")
 def Confirm(id):
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        status = "Confirmed"
-        cursor.execute("UPDATE appointment SET Status =%s WHERE appointment.A_ID = %s", (status, id,))
-        mysql.connection.commit()
-        patient = cursor.execute("SELECT * FROM `appointment` WHERE `A_ID`=%s ", (id,))
-        cursor.execute("SELECT * FROM `patient` WHERE `P_ID`=%s ", (patient,))
-        patientDetails = cursor.fetchone()
+    a=appointx.Confirmx(id)
+    return redirect('/DoctorProfile')
 
-
-        msg = Message(
-            'Hello ' + patientDetails['P_Name'], sender='mariahabib2207@gmail.com',
-            recipients=[patientDetails['P_Email']])
-        msg.body = "Your appointment has been Confirmed"
-        mail.send(msg)
-
-
-
-        return "Appointment has been Confirmed"
 
 @app.route("/Delete/<int:id>")
 def Delete(id):
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute("DELETE appointment WHERE appointment.A_ID = %s",(id,))
-    mysql.connection.commit()
-    patient=cursor.execute("SELECT * FROM `appointment` WHERE `A_ID`=%s ",(id,))
-    cursor.execute("SELECT * FROM `patient` WHERE `P_ID`=%s ",(patient,))
-    patientDetails=cursor.fetchone()
+    data = session['name']
+    a=appointx.Deletex(id,data)
+    return redirect("/P_App")
+    
+          
+    
+@app.route('/New', methods=['GET', 'POST'])
+def New():
+
+    doc,timing,specialization,day,a,no=appointx.Newx()       
+    return render_template ('New.html',doc=doc,timing=timing,specialization=specialization,day=day,a=a,no=no)
+    
+          
+@app.route("/Select/<doc>")
+def Select(doc):
+    a=appointx.Selectx(doc)
+    a="Your appointment has been added"
+    return redirect("/P_App")
+###############################################################################
+      
 
 
-    msg = Message(
-    'Hello ' + patientDetails['P_Name'],sender='mariahabib2207@gmail.com',recipients=[patientDetails['P_Email']] )
-    msg.body="Your appointment has been Deleted"
-    mail.send(msg)
-    return "Appointment has been Deleted"
+      
 
+            
+
+ 
+
+            
+
+   
+    
+    
 # ----------------------------------------------------------------------------------------------------------
 
 ############################################## Chat Code  ##############################################
@@ -437,11 +268,12 @@ def detect_intent_with_parameters(project_id, session_id, query_params, language
     # getting  user input
     text = user_input
     text_input = dialogflow.types.TextInput(text=text, language_code=language_code)
-    #Represents the query input.  An event that specifies which intent to trigger.
+    # Represents the query input.  An event that specifies which intent to trigger.
     query_input = dialogflow.types.QueryInput(text=text_input)
     # Detect response with parameters
     response = session_client.detect_intent(session=session, query_input=query_input, query_params=query_params)
     return response
+
 
 @app.route('/chat', methods=["Post"])
 def chat():
@@ -450,7 +282,7 @@ def chat():
     # get input message from form
     input_text = request.form['message']
 
-# Google Authentication
+    # Google Authentication
     GOOGLE_AUTHENTICATION_FILE_NAME = "azymee-aeuj-070e0a104a03.json"
     current_directory = os.path.dirname(os.path.realpath(__file__))
     path = os.path.join(current_directory, GOOGLE_AUTHENTICATION_FILE_NAME)
@@ -483,7 +315,7 @@ def chat():
     result = MessageToDict(response)
 
     if result['queryResult']['intent']['displayName'] == "Stop-Symptoms":
-        i=0
+        i = 0
         num = machinelearning(disease)
         x = ("You are suffering from " + num[0])
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -504,12 +336,5 @@ def chat():
     return jsonify(response)
 
 
-
-
-
-
-
-
 if __name__ == "__main__":
     app.run()
-

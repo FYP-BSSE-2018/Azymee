@@ -5,11 +5,12 @@
     <!DOCTYPE html> 
     <html>
     <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename = 'DoctorProfile.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'PatientAppointment.css') }}"/>
         <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}"/>
     
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
   </head>
 
@@ -26,13 +27,13 @@
 
 
 
-      <div class="container mt-5 mb-3 pictures" >
+      <div class="container-fluid mt-5 mb-3 pictures" >
         <center>
 
 
-          <h1><u>Welcome {{name}} ! </u></h1>
-          
-
+          <h1><u>Welcome {{name}} ! </u> <a href="{{url_for('New')}}"><i class="fa fa-plus-square"></i></a></h1>
+      
+          <p>{{msg}}</p>
          
      
   
@@ -53,25 +54,28 @@
             </thead>
 
             <tbody>
-             {% set y=no+1%}
-              {% for x in range(y) %}
+              {% for x  in range (no)%}
+            
               <tr>
                 <td> {{x}}</td>
 
-                <td> {{lis[x]['D_Name']}}</td>
-                 <td> {{lis[x]['Specialization']}}</td>
-                 <td> {{patient['P_History']}}</td>
-                <td> {{appointments[x]['Day']}}</td>
-                <td> {{appointments[x]['Timing']}}</td>
-               <td>{{appointments[x]['Status']}} </td>
-              </tr>
+                <td> {{Names[x]}}</td>
+                 <td> {{Special[x]}}</td>
+                 <td> {{Diseases[x]}}</td>
+                <td> {{Day[x]}}</td>
+                <td> {{Timing[x]}}</td>
+                <td> {{Status[x]}}</td>
+            
 
-              {% set x=appointments[x]['A_ID']%}
+             
+            
+              {% set z=ID[x] %}
               
               
-              <td> <button class="Reject"><b><a href="{{url_for('Delete', id=x)}}">Reject</a></b></button></td>
-                   <td> <button class="Confirm"><b><a href="{{url_for('Confirm', id=x)}}">Confirm</a></b></button></td>
-              {% endfor %}
+              <td> <button class="Reject"><b><a href="{{url_for('Delete', id=z)}}">Delete</a></b></button></td>
+             {% endfor %}
+            </tr>
+
             </tbody>
           </table>
  
