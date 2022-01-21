@@ -1,6 +1,6 @@
 from pydoc import doc
 from tokenize import Special
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session,flash
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import dialogflow
@@ -170,6 +170,7 @@ def PatientProfile():
 ###################################---User display page --- #########################################
 @app.route('/P_App', methods=['GET', 'POST'])
 def P_App():
+  
     data = session['name']
     no,Names, Special,Day,Timing,Status,Diseases,ID=appointx.Patient(data)
     return render_template("PatientAppointments.html",no=no,Names=Names, Special=Special,Day=Day,Timing=Timing,Status=Status,Diseases=Diseases,ID=ID)
@@ -224,7 +225,9 @@ def Confirm(id):
 @app.route("/Delete/<int:id>")
 def Delete(id):
     data = session['name']
+
     a=appointx.Deletex(id,data)
+    flash('Appointment Deleted')
     return redirect("/P_App")
     
           
@@ -239,7 +242,7 @@ def New():
 @app.route("/Select/<doc>")
 def Select(doc):
     a=appointx.Selectx(doc)
-    a="Your appointment has been added"
+    flash("Your appointment has been added")
     return redirect("/P_App")
 ###############################################################################
       

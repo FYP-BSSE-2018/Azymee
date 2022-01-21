@@ -33,7 +33,13 @@
 
           <h1><u>Welcome {{name}} ! </u> <a href="{{url_for('New')}}"><i class="fa fa-plus-square"></i></a></h1>
       
-          <p>{{msg}}</p>
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+        
+    
+        <p style="color: red;">{{messages}}</p>
+        {% endif %}
+          {% endwith %}
          
      
   
