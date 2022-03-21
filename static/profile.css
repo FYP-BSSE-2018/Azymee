@@ -180,9 +180,15 @@ padding: 2%;
 .app
 {
   
-    color: white !important;
-    background: #e81919;
+    color: rgb(241, 21, 21) !important;
+   background-image:linear-gradient(#2a2a4f,whitesmoke,white);
     border-radius: 15%;
     padding: 2%;
+    font-weight: bold;
+}
+
+nav
+{
+  display: inline;
 }
 

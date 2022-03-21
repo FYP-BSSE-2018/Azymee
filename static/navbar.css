@@ -23,3 +23,9 @@
   float: right !important;
   margin-right: 2% !important;
 }
+
+
+em
+{
+  font-weight: bold !important;
+}

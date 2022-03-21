@@ -8,13 +8,17 @@ from flask import Flask, request, jsonify, render_template
 from google.protobuf.json_format import MessageToDict
 from sklearn.tree import DecisionTreeClassifier
 import warnings
-
+import re
 from sqlalchemy import String
 warnings.filterwarnings('ignore')
 import os
 from sklearn import datasets, linear_model, metrics
 from sklearn.svm import SVC  # "Support vector classifier
 import numpy as np
+
+from datetime import date
+
+
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split, cross_val_score
@@ -123,6 +127,11 @@ def machinelearning(disease):
     return num
 
 
+################################---- Index ----################################
+@app.route("/")
+def index():
+    return render_template("index.html")
+
 ################################----Render Chatpage ----################################
 
 @app.route("/Chatpage")
@@ -131,9 +140,6 @@ def Chatpage():
 
 
 ################################---- Index ----################################
-@app.route("/")
-def index():
-    return render_template("index.html")
 
 
 ################################---- Patient Register ----################################
@@ -156,7 +162,17 @@ def PatientLogin():
         msg = 'Incorrect username/password!'
 
     return render_template("PatientLogin.html", msg=msg)
+@app.route('/DoctorLogin', methods=['GET', 'POST'])
+def DoctorLogin():
+    msg = ''
+    a = RegistationAndLogin.DoctorLoginx()
+    if a == True:
+        msg = 'Logged in successfully!'
+        return redirect("DoctorProfile")
+    if a == False:
+        msg = 'Incorrect username/password!'
 
+    return render_template("DoctorLogin.html", msg=msg)
 
 ##############################################---- User display page ---- #################################################
 @app.route('/PatientProfile', methods=['GET', 'POST'])
@@ -176,28 +192,12 @@ def P_App():
     return render_template("PatientAppointments.html",no=no,Names=Names, Special=Special,Day=Day,Timing=Timing,Status=Status,Diseases=Diseases,ID=ID)
 
 
-###################################---User display page --- #########################################
+###################################---Doctor Register page --- #########################################
 @app.route('/DoctorRegister', methods=['GET', 'POST'])
 def DoctorRegister():
-   # msg = ''
-    msg = RegistationAndLogin.DoctorRegisterx()
-    return render_template('DoctorRegister.html', msg=msg)
-
-
-# ----------------------------------------------------------------------------------------------------------
-############################################## Doctor Login ##############################################
-from Modules import RegistationAndLogin
-@app.route('/DoctortLogin', methods=['GET', 'POST'])
-def DoctorLogin():
     msg = ''
-    a = RegistationAndLogin.DoctorLoginx()
-    if a:
-        msg = "logged in"
-        return redirect("DoctorProfile")
-    if not a:
-        msg = "Incorrect Username/ Password"
-
-    return render_template("DoctorLogin.html", msg=msg)
+    msg = RegistationAndLogin.DoctorRegisterx()
+    return render_template("DoctorRegister.html", msg=msg)
 
 ############################################## Doctor Profile ##############################################
 # ----------------------------------------------------------------------------------------------------------
@@ -205,12 +205,28 @@ def DoctorLogin():
 @app.route('/DoctorProfile', methods=['GET', 'POST'])
 def DoctorProfile():
     name = session['d_name']
-    appointments, lis, no=RegistationAndLogin.DoctorProfilex(name)
+    #appointments, lis, no=RegistationAndLogin.DoctorProfilex(name)
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT D_ID FROM doctor WHERE D_Name= %s', (name,))
+    D_ID = cursor.fetchone()
+    D_ID = D_ID['D_ID']
+    no = cursor.execute('SELECT * FROM `appointment` WHERE `D_ID`=%s', (D_ID,))
+    if no == 0:
+        return "You don't have any appointments"
+    else:
+        appointments = cursor.fetchall()
+        lis = []
+        for i in range(no):
+            x = appointments[i]['P_ID']
+            no = cursor.execute('SELECT * FROM `patient` WHERE `P_ID`=%s', (x,))
+            a = cursor.fetchone()
+            lis.append(a)
     if no==0:
         return "You dont have any appointments"
     else:
         return render_template("DoctorProfile.html", appointments=appointments, lis=lis, no=no)
 ######################################################################################
+
 @app.route("/Reject/<int:id>")
 def Reject(id):
     a=appointx.Rejectx(id)
@@ -229,21 +245,46 @@ def Delete(id):
     a=appointx.Deletex(id,data)
     flash('Appointment Deleted')
     return redirect("/P_App")
-    
-          
-    
-@app.route('/New', methods=['GET', 'POST'])
-def New():
 
-    doc,timing,specialization,day,a,no=appointx.Newx()       
-    return render_template ('New.html',doc=doc,timing=timing,specialization=specialization,day=day,a=a,no=no)
+
+
+
     
-          
-@app.route("/Select/<doc>")
-def Select(doc):
-    a=appointx.Selectx(doc)
-    flash("Your appointment has been added")
-    return redirect("/P_App")
+@app.route('/New', )
+def New():
+        disease = 'Acne'
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute("SELECT `Doctor_Specialization` FROM `disease` WHERE `Disease_Name` = %s", (disease,))
+        Specialization = cursor.fetchone()
+        Specialization = Specialization['Doctor_Specialization']
+        no = cursor.execute("SELECT * FROM `doctor` WHERE `Specialization`=%s", (Specialization,))
+        d = cursor.fetchall()  # d = Doctor Details
+
+        return render_template('New1.html', no=no, d=d)
+
+
+
+@app.route('/SelectDay/<value>' )
+def SelectDay(value):
+    session['log'] = 1
+    Log = session['log']
+    a=value
+    a=a.split(":")
+    Day=a[0]
+    Doctor=a[1]
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("SELECT * FROM `doctor_days` WHERE `D_Name`=%s", (Doctor,))
+    days = cursor.fetchone()
+    Day=days[str(Day)]
+    Day=str(Day.replace(" ", ''))
+    Day=list(Day)
+    print(Day)
+    cursor.execute("SELECT * FROM `doctor` WHERE `D_Name`=%s", (Doctor,))
+    Doctor_Detail=cursor.fetchone()
+
+
+
+    return render_template('New2.html', Day=Day,Doctor_Detail=Doctor_Detail)
 ###############################################################################
       
 
