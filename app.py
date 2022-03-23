@@ -1,3 +1,5 @@
+import datetime
+
 from pydoc import doc
 from tokenize import Special
 from flask import Flask, render_template, request, redirect, url_for, session,flash
@@ -15,10 +17,6 @@ import os
 from sklearn import datasets, linear_model, metrics
 from sklearn.svm import SVC  # "Support vector classifier
 import numpy as np
-
-from datetime import date
-
-
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split, cross_val_score
@@ -49,107 +47,37 @@ mysql = MySQL(app)
 disease = []
 
 
-################################---- Prediction ----################################
-def machinelearning(disease):
-    ##Reading data set and seperating independent and dependent variables
-    data = pd.read_csv("Testing.csv")
-    df = pd.DataFrame(data)
-    cols = df.columns
-    cols = cols[:-1]
-    x = df[cols]
-    y = df['prognosis']
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.33, random_state=42)
-    # Decision Tree ....Calling Classifier and Fitting data for training
-    dt = DecisionTreeClassifier()
-    dt.fit(x_train, y_train)
-    ## SVM
-    classifier = SVC(kernel='linear', random_state=0)
-    classifier.fit(x_train, y_train)
-    # Random Forest
-    rf = RandomForestClassifier(n_estimators=100, criterion='gini', max_depth=6,
-                                max_features='auto', random_state=0)
-    rf.fit(x_train, y_train)
-    # knn
-    knnclf = KNeighborsClassifier()
-    # Fitting K-NN to the Training set
-    knnClassifier = KNeighborsClassifier(n_neighbors=2)
-    knnClassifier.fit(x_train, y_train)
-    # To create a dictionary from two sequences, use the dict() and zip() so it creates dictionary of symptoms and indices
-    indices = [i for i in range(132)]
-    symptoms = df.columns.values[:-1]
-    dictionary = dict(zip(symptoms, indices))
 
-    # Functions
+################################---- Index and Contact Page  ----################################
+# ----------------------------------------------------------------------------------------------------------
 
-    def dosomething(symptom):
-        # Getting values from user input
-        user_input_symptoms = symptom
-        user_input_label = [0 for i in range(132)]
-        for i in user_input_symptoms:
-            idx = dictionary[i]
-            user_input_label[idx] = 1
-        # Creating np array
-        user_input_label = np.array(user_input_label)
-        # Changing 1D array to 2D array
-        user_input_label = user_input_label.reshape((-1, 1)).transpose()
-
-        # Predicting values
-        DecisionTree = dt.predict(user_input_label)
-
-        RandomForest = rf.predict(user_input_label)
-
-        y_pred = knnClassifier.predict(user_input_label)
-
-        SVM = classifier.predict(user_input_label)
-        return (DecisionTree, RandomForest, y_pred, SVM)
-
-    ### Predicting Diseases
-    prediction = (dosomething(disease))
-    print("DecisionTree : ", prediction[0])
-    print("Random Forest : ", prediction[1])
-    print("KNN : ", prediction[2])
-
-    print("SVM: ", prediction[3])
-
-    def most_frequent(prediction):
-        counter = 0
-        num = prediction[0]
-
-        for i in prediction:
-            curr_frequency = prediction.count(i)
-            if (curr_frequency > counter):
-                counter = curr_frequency
-                num = i
-
-        return num
-
-    num = most_frequent(prediction)
-    return num
-
-
-################################---- Index ----################################
 @app.route("/")
 def index():
     return render_template("index.html")
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+@app.route("/LoginRegister")
+def loginRegister():
+    return render_template("loginRegister.html")
+
 
 ################################----Render Chatpage ----################################
+# ----------------------------------------------------------------------------------------------------------
 
 @app.route("/Chatpage")
 def Chatpage():
     return render_template("chat.html")
 
 
-################################---- Index ----################################
+################################---- Patient Register And Login ----################################
+# ----------------------------------------------------------------------------------------------------------
 
-
-################################---- Patient Register ----################################
 @app.route('/PatientRegister', methods=['GET', 'POST'])
 def Patientregister():
     msg = RegistationAndLogin.Patientregisterx()
     return render_template('PatientRegister.html', msg=msg)
 
-
-################################---- Patient Login ----################################
 
 @app.route('/PatientLogin', methods=['GET', 'POST'])
 def PatientLogin():
@@ -162,6 +90,12 @@ def PatientLogin():
         msg = 'Incorrect username/password!'
 
     return render_template("PatientLogin.html", msg=msg)
+
+
+################################----  Doctor Register And Login ----################################
+# ----------------------------------------------------------------------------------------------------------
+
+
 @app.route('/DoctorLogin', methods=['GET', 'POST'])
 def DoctorLogin():
     msg = ''
@@ -174,7 +108,16 @@ def DoctorLogin():
 
     return render_template("DoctorLogin.html", msg=msg)
 
+@app.route('/DoctorRegister', methods=['GET', 'POST'])
+def DoctorRegister():
+    msg = ''
+    msg = RegistationAndLogin.DoctorRegisterx()
+    return render_template("DoctorRegister.html", msg=msg)
+
+
 ##############################################---- User display page ---- #################################################
+# ----------------------------------------------------------------------------------------------------------
+
 @app.route('/PatientProfile', methods=['GET', 'POST'])
 def PatientProfile():
     data = session['name']
@@ -183,54 +126,29 @@ def PatientProfile():
                            bloodgroup=bloodgroup)
 
 
-###################################---User display page --- #########################################
+###################################---User Appointment page --- #########################################
+# ----------------------------------------------------------------------------------------------------------
 @app.route('/P_App', methods=['GET', 'POST'])
 def P_App():
+    data=session['name']
+    no,Names, Special,Day,Timing,Status,Diseases,ID= appointx.Patient(data)
+    return render_template('PatientAppointments.html',no=no,Names=Names, Special=Special,Day=Day,Timing=Timing,Status=Status,Diseases=Diseases,ID=ID)
   
-    data = session['name']
-    no,Names, Special,Day,Timing,Status,Diseases,ID=appointx.Patient(data)
-    return render_template("PatientAppointments.html",no=no,Names=Names, Special=Special,Day=Day,Timing=Timing,Status=Status,Diseases=Diseases,ID=ID)
+   
 
-
-###################################---Doctor Register page --- #########################################
-@app.route('/DoctorRegister', methods=['GET', 'POST'])
-def DoctorRegister():
-    msg = ''
-    msg = RegistationAndLogin.DoctorRegisterx()
-    return render_template("DoctorRegister.html", msg=msg)
 
 ############################################## Doctor Profile ##############################################
 # ----------------------------------------------------------------------------------------------------------
 
 @app.route('/DoctorProfile', methods=['GET', 'POST'])
 def DoctorProfile():
-    name = session['d_name']
-    #appointments, lis, no=RegistationAndLogin.DoctorProfilex(name)
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT D_ID FROM doctor WHERE D_Name= %s', (name,))
-    D_ID = cursor.fetchone()
-    D_ID = D_ID['D_ID']
-    no = cursor.execute('SELECT * FROM `appointment` WHERE `D_ID`=%s', (D_ID,))
-    if no == 0:
-        return "You don't have any appointments"
-    else:
-        appointments = cursor.fetchall()
-        lis = []
-        for i in range(no):
-            x = appointments[i]['P_ID']
-            no = cursor.execute('SELECT * FROM `patient` WHERE `P_ID`=%s', (x,))
-            a = cursor.fetchone()
-            lis.append(a)
-    if no==0:
-        return "You dont have any appointments"
-    else:
-        return render_template("DoctorProfile.html", appointments=appointments, lis=lis, no=no)
-######################################################################################
+    data=session['d_name']
+    no,Names,Day,Timings,Status,Diseases,ID=RegistationAndLogin.DoctorProfilex(data)
+    return render_template('DoctorProfile.html',no=no,Names=Names,Day=Day,Timing=Timings,Status=Status,Diseases=Diseases,ID=ID)
 
-@app.route("/Reject/<int:id>")
-def Reject(id):
-    a=appointx.Rejectx(id)
-    return redirect('/DoctorProfile')
+############################################## Appointments Actions ##############################################
+# ----------------------------------------------------------------------------------------------------------
+
 
 @app.route("/Confirm/<int:id>")
 def Confirm(id):
@@ -241,50 +159,35 @@ def Confirm(id):
 @app.route("/Delete/<int:id>")
 def Delete(id):
     data = session['name']
-
     a=appointx.Deletex(id,data)
     flash('Appointment Deleted')
     return redirect("/P_App")
 
+############################################## Add new Appointments ##############################################
+# ----------------------------------------------------------------------------------------------------------
 
-
-
-    
-@app.route('/New', )
+@app.route('/New', methods=['GET','POST'])
 def New():
-        disease = 'Acne'
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute("SELECT `Doctor_Specialization` FROM `disease` WHERE `Disease_Name` = %s", (disease,))
-        Specialization = cursor.fetchone()
-        Specialization = Specialization['Doctor_Specialization']
-        no = cursor.execute("SELECT * FROM `doctor` WHERE `Specialization`=%s", (Specialization,))
-        d = cursor.fetchall()  # d = Doctor Details
+    no ,d,a,x=appointx.Newx()
+    return render_template('NewAppointment.html' ,no=no ,d=d,a=a,x=x)
 
-        return render_template('New1.html', no=no, d=d)
-
-
+@app.route('/SelectSlot/<value>' )
+def SelectSlot(value):
+    Doctor=session['Selected_Doctor']
+    Day=session["Selected_Day"]
+    data = session['name']
+    a=appointx.SelectSlotx(Doctor,Day,data,value)
+    flash('You appointment has been shared with doctor')
+    return render_template("Thankyou.html")
+  
 
 @app.route('/SelectDay/<value>' )
 def SelectDay(value):
     session['log'] = 1
     Log = session['log']
-    a=value
-    a=a.split(":")
-    Day=a[0]
-    Doctor=a[1]
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute("SELECT * FROM `doctor_days` WHERE `D_Name`=%s", (Doctor,))
-    days = cursor.fetchone()
-    Day=days[str(Day)]
-    Day=str(Day.replace(" ", ''))
-    Day=list(Day)
-    print(Day)
-    cursor.execute("SELECT * FROM `doctor` WHERE `D_Name`=%s", (Doctor,))
-    Doctor_Detail=cursor.fetchone()
-
-
-
-    return render_template('New2.html', Day=Day,Doctor_Detail=Doctor_Detail)
+    Day,Doctor_Detail,no=appointx.SelectDayx(Log,value)
+    
+    return render_template('New_Stage2.html', Day=Day,Doctor_Detail=Doctor_Detail,no=no)
 ###############################################################################
       
 
@@ -319,65 +222,6 @@ def detect_intent_with_parameters(project_id, session_id, query_params, language
     return response
 
 
-@app.route('/chat', methods=["Post"])
-def chat():
-    ## Empty list for disease
-    disease = []
-    # get input message from form
-    input_text = request.form['message']
-
-    # Google Authentication
-    GOOGLE_AUTHENTICATION_FILE_NAME = "azymee-aeuj-070e0a104a03.json"
-    current_directory = os.path.dirname(os.path.realpath(__file__))
-    path = os.path.join(current_directory, GOOGLE_AUTHENTICATION_FILE_NAME)
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = path
-    GOOGLE_PROJECT_ID = "azymee-aeuj"
-    session_id = "83874360073"
-    context_short_name = "does_not_matter"
-    context_name = "projects/" + GOOGLE_PROJECT_ID + "/agent/sessions/" + session_id + "/contexts/" + context_short_name.lower()
-
-    # Generated protocol buffer code.
-    # https://googleapis.dev/python/protobuf/latest/google/protobuf/struct_pb2.html
-    parameters = dialogflow.types.struct_pb2.Struct()
-    context_1 = dialogflow.types.context_pb2.Context(
-        name=context_name,
-        lifespan_count=2,
-        parameters=parameters
-    )
-
-    query_params_1 = {"contexts": [context_1]}
-
-    language_code = 'en'
-
-    response = detect_intent_with_parameters(
-        project_id=GOOGLE_PROJECT_ID,
-        session_id=session_id,
-        query_params=query_params_1,
-        language_code=language_code,
-        user_input=input_text
-    )
-    result = MessageToDict(response)
-
-    if result['queryResult']['intent']['displayName'] == "Stop-Symptoms":
-        i = 0
-        num = machinelearning(disease)
-        x = ("You are suffering from " + num[0])
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM disease WHERE Disease_Name  = %s', (disease,))
-        response = {"message": x}
-
-
-    elif 'symptoms' in result['queryResult']['parameters']:
-        disease.append(result['queryResult']['parameters']['symptoms'])
-        response = {"message": result['queryResult']['fulfillmentText'], "payload": None}
-
-
-
-    else:
-        response = {"message": result['queryResult']['fulfillmentText'], "payload": None}
-
-    # response =
-    return jsonify(response)
 
 
 if __name__ == "__main__":
