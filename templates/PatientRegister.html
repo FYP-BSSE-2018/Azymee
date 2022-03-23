@@ -2,56 +2,109 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename = 'Forms.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="copyright" content="MACode ID, https://macodeid.com/">
+
+    <title>Amzyee</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'Register.css') }}">
+
+    <link rel="stylesheet" href="/static/assets/css/maicons.css">
+
+    <link rel="stylesheet" href="/static/assets/css/bootstrap.css">
+
+    <link rel="stylesheet" href="/static/assets/vendor/owl-carousel/css/owl.carousel.css">
+
+    <link rel="stylesheet" href="/static/assets/vendor/animate/animate.css">
+
+    <link rel="stylesheet" href="/static/assets/css/theme.css">
 </head>
 
 <body>
-    <nav class="navbar ">
-        <a class="navbar-brand" href="#" style="color:white !important">
-            <img src="static/homepage/logo.png" width="60" height="60" alt="">
-            <em> Amzyee</em>
-        </a>
-    </nav>
-    <br>
-    <div class="container " style="padding-left:15%;padding-right:15%">
-        <div class="row" style="background-color:rgb(1, 1, 68)">
-            <div class="col-6 left-side">
-                <div class="phone">
-                    <img class="left-image" src="static/homepage/logo.png" width="60" height="60" alt="">
-                    <br>
-                    <center>
-                        <button class="emergency-button">
-                                <i class="fa  emergency fa-phone" aria-hidden="true"></i>
-                            </button>
-                    </center>
+
+    <header>
+        <div class="topbar">
+
+            <div class="row" style="margin-left: 2%;">
+                <div class="col-sm-8 text-sm">
+                    <div class="site-info">
+                        <a href="#"><span class="mai-call text-primary"></span>0320-9045947</a>
+                        <span class="divider">|</span>
+                        <a href="#"><span class="mai-mail text-primary"></span> fyp-sp18-bsse@gmail.com</a>
+                    </div>
                 </div>
+                <div class="col-sm-4 text-right text-sm">
+                    <div class="social-mini-button">
+                        <a href="#"><span class="mai-logo-facebook-f"></span></a>
+                        <a href="#"><span class="mai-logo-twitter"></span></a>
+                        <a href="#"><span class="mai-logo-dribbble"></span></a>
+                        <a href="#"><span class="mai-logo-instagram"></span></a>
+                    </div>
+                </div>
+
             </div>
-            <div class="col-4" style="background-color:white;">
-                <form action="{{ url_for('Patientregister') }}" method="post" autocomplete="off">
-                    <H3 class="Heading">Register</H3>
-                    <input type="text" name="username" placeholder="Enter First Name" id="username" minlength="4" maxlength="10" required>
-                    <br>
-                    <br>
-                    <label for="DOB">Date of Birth</label>
-                    <br>
-                    <input type="date" name="DOB" id="DOB" placeholder="dd-mm-yyyy" value="" min="1997-01-01" max="2030-12-31">
-                    <br>
-                    <br>
-                    <input type="password" name="password" placeholder="Password" id="password" required>
-                    <br>
-                    <br>
-                    <input type="email" name="email" placeholder="Email" id="email" required>
-                    <br>
-                    <br>
-                    <input type="tel" name="phonenumber" placeholder="phonenumber" id="phonenumber" required>
-                    <br>
-                    <br>
-                    <label for="country" placeholder="Country">Select Country</label>
-                    <select id="country" name="country">
+        </div>
+
+        <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+
+            <img src="static\images\logo.png" width="60" height="60" alt="">
+            <a class="navbar-brand" href="#"><span class="text-primary">Amzyee</span></a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupport" aria-controls="navbarSupport" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupport">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('loginRegister') }}">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary ml-lg-3" href="{{ url_for('contact') }}">Login / Register</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- .navbar-collapse -->
+
+            <!-- .container -->
+        </nav>
+        <br>
+        <div class="container-fluid register " style="padding-left:15%;padding-right:15%">
+            <div class="row" style="background-color:rgb(1, 1, 68)">
+                <div class="col-6 left-side">
+                    <div class="phone">
+
+                    </div>
+                </div>
+                <div class="col-4" style="background-color:white;">
+                    <form action="{{ url_for('Patientregister') }}" method="post" autocomplete="off">
+                        <H3 class="Heading">Register</H3>
+                        <input class="inputs" type="text" name="username" placeholder="Enter First Name" id="username" minlength="4" maxlength="10" required>
+                        <br>
+                        <br>
+                        <label for="DOB">Date of Birth</label>
+                        <br>
+                        <input class="inputs" type="date" name="DOB" id="DOB" placeholder="dd-mm-yyyy" value="" min="1997-01-01" max="2030-12-31">
+                        <br>
+                        <br>
+                        <input class="inputs" type="password" name="password" placeholder="Password" id="password" required>
+                        <br>
+                        <br>
+                        <input class="inputs" type="email" name="email" placeholder="Email" id="email" required>
+                        <br>
+                        <br>
+                        <input class="inputs" type="tel" name="phonenumber" placeholder="phonenumber" id="phonenumber" required>
+                        <br>
+                        <br>
+                        <label for="country" placeholder="Country">Select Country</label>
+                        <select id="country" name="country">
                             <option value="Afganistan">Afghanistan</option>
                             <option value="Albania">Albania</option>
                             <option value="Algeria">Algeria</option>
@@ -299,10 +352,10 @@
                             <option value="Zambia">Zambia</option>
                             <option value="Zimbabwe">Zimbabwe</option>
                         </select>
-                    <br>
-                    <br>
-                    <label for="BloodGroup">Select Blood Group</label>
-                    <select id="BloodGroup" name="BloodGroup">
+                        <br>
+                        <br>
+                        <label for="BloodGroup">Select Blood Group</label>
+                        <select id="BloodGroup" name="BloodGroup">
                             <option value="A Positive">A Positive</option>
                             <option value="A Negative">A Negative</option>
                             <option value="A Unknown">A Unknown</option>
@@ -317,19 +370,19 @@
                             <option value="O Unknown">O Unknown</option>
                             <option value="Unknown">Unknown</option>
                         </select>
-                    <br>
-                    <INPUT TYPE="Radio" Name="Gender" Value="Male"> Male
-                    <INPUT TYPE="Radio" Name="Gender" Value="Female"> Female
-                    <br>
-                    <div class="msg">{{ msg }}</div>
-                    <br>
-                    <button class="submit " type="submit" value="Patientregister">Register</button>
-                </form>
+                        <br>
+                        <INPUT TYPE="Radio" Name="Gender" Value="Male"> Male
+                        <INPUT TYPE="Radio" Name="Gender" Value="Female"> Female
+                        <br>
+                        <div class="msg">{{ msg }}</div>
+                        <br>
+                        <button class="submit " type="submit" value="Patientregister">Register</button>
+                    </form>
+                </div>
+                <div class="col-2 left-side"></div>
             </div>
-            <div class="col-2 left-side"></div>
         </div>
-    </div>
-    </div>
+        </div>
 </body>
 
 </html>

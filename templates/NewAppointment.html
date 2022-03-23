@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'New.css') }}">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'layout.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="copyright" content="MACode ID, https://macodeid.com/">
+
+    <title>Amzyee</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'Register.css') }}">
+    <link rel="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/assets/css/maicons.css">
+
+    <link rel="stylesheet" href="/static/assets/css/bootstrap.css">
+
+    <link rel="stylesheet" href="/static/assets/vendor/owl-carousel/css/owl.carousel.css">
+
+    <link rel="stylesheet" href="/static/assets/vendor/animate/animate.css">
+
+    <link rel="stylesheet" href="/static/assets/css/theme.css">
+
+
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<header>
+    <div class="topbar">
+
+        <div class="row" style="margin-left: 2%;">
+            <div class="col-sm-8 text-sm">
+                <div class="site-info">
+                    <a href="#"><span class="mai-call text-primary"></span>0320-9045947</a>
+                    <span class="divider">|</span>
+                    <a href="#"><span class="mai-mail text-primary"></span> fyp-sp18-bsse@gmail.com</a>
+                </div>
+            </div>
+            <div class="col-sm-4 text-right text-sm">
+                <div class="social-mini-button">
+                    <a href="#"><span class="mai-logo-facebook-f"></span></a>
+                    <a href="#"><span class="mai-logo-twitter"></span></a>
+                    <a href="#"><span class="mai-logo-dribbble"></span></a>
+                    <a href="#"><span class="mai-logo-instagram"></span></a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+
+        <img src="static\images\logo.png" width="60" height="60" alt="">
+        <a class="navbar-brand" href="#"><span class="text-primary">Amzyee</span></a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupport" aria-controls="navbarSupport" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupport">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('loginRegister') }}">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-primary ml-lg-3 log" href="{{ url_for('contact') }}">Login / Register</a>
+                </li>
+            </ul>
+        </div>
+        <!-- .navbar-collapse -->
+
+        <!-- .container -->
+    </nav>
+    <br>
+</header>
+<div class="main">
+
+    <body>
+        <br>
+        <form action="{{ url_for('New') }}" method="post" autocomplete="off">
+            <label for="Disease">Select Doctor By Disease :</label>
+            <select id="Disease" name="Disease">
+                <option value="Acne">Acne</option>
+                <option value="AIDS">AIDS</option>
+                <option value="Allergy">Allergy</option>
+                <option value="Arthritis">Arthritis</option>
+                <option value="Bronchial Asthma">Bronchial Asthma</option>
+                <option value="Cervical spondylosis">Cervical spondylosis</option>
+                <option value="Chicken pox">Chicken pox</option>
+                <option value="Chronic cholestasis">Chronic cholestasis</option>
+                <option value="Common Cold">Common Cold</option>
+                <option value="Dengue">Dengue</option>
+                <option value="Diabetes">Diabetes</option>
+                <option value="Dimorphic hemmorhoids(piles)">Dimorphic hemmorhoids(piles)</option>
+                <option value="Drug Reaction">Drug Reaction</option>
+                <option value="Fungal infection">Fungal infection</option>
+                <option value="Gastroenteritis">Gastroenteritis</option>
+                <option value="GERD">GERD</option>
+                <option value="Heart attack">Heart attack</option>
+                <option value="Hepatitis">Hepatitis</option>
+                <option value="Hypertension">Hypertension</option>
+                <option value="Hyperthyroidism">Hyperthyroidism</option>
+                <option value="Hypothyroidism">Hypothyroidism</option>
+                <option value="Hypoglycemia">Hypoglycemia</option>
+                <option value="Impetigo">Impetigo</option>
+                <option value="Jaundice">Jaundice</option>
+                <option value="Malaria">Malaria</option>
+                <option value="Migraine">Migraine</option>
+                <option value="Osteoarthristis">Osteoarthristis</option>
+                <option value="Paralysis (brain hemorrhage)">Paralysis (brain hemorrhage)</option>
+                <option value="Peptic ulcer diseae">Peptic ulcer diseae</option>
+                <option value="Pneumonia">Pneumonia</option>
+                <option value="Psoriasis">Psoriasis</option>
+                <option value="Tuberculosis">Tuberculosis</option>
+                <option value="Typhoid">Typhoid</option>
+                <option value="Urinary tract infection">Urinary tract infection</option>
+                <option value="Varicose veins">Varicose veins</option>
+                <option value="(vertigo) Paroymsal  Positional Vertigo">(vertigo) Paroymsal  Positional Vertigo</option>
+            </select>
+
+            <button class="submit " style="width: fit-content !important; background:red ;color :white" type="submit" value="New">Search</button>
+        </form>
+        {% if a==0 and x==1 %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Doctor Name</th>
+                    <th scope="col">Start Time</th>
+                    <th scope="col">End Time</th>
+                    <th scope="col">Days</th>
+                </tr>
+            </thead>
+            <tr>
+
+                {% for x in d %}
+                <tr>
+                    <td scope="col">{{x['D_Name']}}</td>
+                    <td scope="col">{{x['Start_Time']}}:00 hrs</td>
+                    <td scope="col">{{x['End_Time']}}:00 hrs</td>
+                    {% set list =x['D_Day'] .split("'") %}
+                    <td scope="col">
+                        {% for y in list %} {% set z=y|string+':'+x['D_Name']|string %} {% if y|length > 3 %}
+                        <button class="log2">
+                            <a class="Days" href="{{ url_for('SelectDay',value=z )}}">{{y}}</a>
+                        </button> {% endif %}{% endfor %}
+
+                    </td>
+
+
+                </tr>
+                {% endfor %}
+
+
+
+
+                </tbody>
+
+        </table>
+        {% else %}
+        <center>
+            <h1 style="color:red !important">Currently no doctors for this disease </h1>
+        </center>
+
+        {% endif %}
+
+    </body>
+    <style>
+        .log2 {
+            font-weight: bold;
+            background-color: #fff !important;
+            color: #07024b !important;
+            border-color: white !important;
+        }
+        
+        .log {
+            color: #fff !important;
+            background-color: #07024b !important;
+            border-color: transparent !important;
+        }
+        
+        a {
+            color: gray !important;
+        }
+        
+        .text-primary {
+            color: #100e42 !important;
+        }
+    </style>
+</div>
+
+</html>

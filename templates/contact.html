@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="copyright" content="MACode ID, https://macodeid.com/">
+
+    <title>Amzyee</title>
+
+    <link rel="stylesheet" href="/static/assets/css/maicons.css">
+
+    <link rel="stylesheet" href="/static/assets/css/bootstrap.css">
+
+    <link rel="stylesheet" href="/static/assets/vendor/owl-carousel/css/owl.carousel.css">
+
+    <link rel="stylesheet" href="/static/assets/vendor/animate/animate.css">
+
+    <link rel="stylesheet" href="/static/assets/css/theme.css">
+</head>
+
+<body>
+
+    <!-- Back to top button -->
+    <div class="back-to-top"></div>
+
+    <header>
+        <div class="topbar">
+
+            <div class="row" style="margin-left: 2%;">
+                <div class="col-sm-8 text-sm">
+                    <div class="site-info">
+                        <a href="#"><span class="mai-call text-primary"></span>0320-9045947</a>
+                        <span class="divider">|</span>
+                        <a href="#"><span class="mai-mail text-primary"></span> fyp-sp18-bsse@gmail.com</a>
+                    </div>
+                </div>
+                <div class="col-sm-4 text-right text-sm">
+                    <div class="social-mini-button">
+                        <a href="#"><span class="mai-logo-facebook-f"></span></a>
+                        <a href="#"><span class="mai-logo-twitter"></span></a>
+                        <a href="#"><span class="mai-logo-dribbble"></span></a>
+                        <a href="#"><span class="mai-logo-instagram"></span></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+
+            <img src="/static/images/logo.png" width="60" height="60" alt="">
+            <a class="navbar-brand" href="#"><span class="text-primary">Amzyee</span></a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupport" aria-controls="navbarSupport" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupport">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('loginRegister') }}">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary ml-lg-3" href="{{ url_for('contact') }}">Login / Register</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- .navbar-collapse -->
+
+            <!-- .container -->
+        </nav>
+    </header>
+
+    <!-- .page-banner -->
+
+    <div class="page-section">
+        <div class="container">
+            <h1 class="text-center wow fadeInUp">Get in Touch</h1>
+
+            <form class="contact-form mt-5" form action="https://formspree.io/f/xgedzbyw" method="post">
+                <div class="row mb-3">
+
+                    <div class="col-sm-6 py-2 wow fadeInRight">
+                        <label for="emailAddress">Email</label>
+                        <input type="email" id="emailAddress" class="form-control" name="email" placeholder="Email address.." id="emailAddress">
+
+                    </div>
+
+                    <div class="col-12 py-2 wow fadeInUp">
+                        <label for="message">Message</label>
+
+                        <textarea name="message" id="message" class="form-control" rows="8" placeholder="Enter Message.."></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary wow zoomIn">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- .banner-home -->
+    <footer class="footer-distributed">
+
+        <div class="footer-left">
+
+            <h3>Amzyee</span>
+            </h3>
+
+            <p class="footer-links">
+                <a href="#" class="link-1">Home</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </p>
+
+            <p class="footer-company-name">Amzyee © 202-</p>
+        </div>
+
+        <div class="footer-center">
+
+            <div>
+                <i class="fa fa-map-marker"></i>
+                <p><span>Islamabad</span> Pakistan</p>
+            </div>
+
+            <div>
+                <i class="fa fa-phone"></i>
+                <p>03209045934</p>
+            </div>
+
+            <div>
+                <i class="fa fa-envelope"></i>
+                <p><a href="fyp-sp18-bsse@gmail.com">fyp-bsse-sp18-lgu@gmail.com</a></p>
+            </div>
+
+        </div>
+
+        <div class="footer-right">
+
+            <p class="footer-company-about">
+                <span>About the company</span> Azymee --Providing world class healthcare facilities
+            </p>
+
+            <div class="footer-icons">
+
+                <a href="#"><span class="mai-logo-facebook-f"></span></a>
+                <a href="#"><span class="mai-logo-twitter"></span></a>
+                <a href="#"><span class="mai-logo-dribbble"></span></a>
+                <a href="#"><span class="mai-logo-instagram"></span></a>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <script src="static/assets/js/jquery-3.5.1.min.js"></script>
+
+    <script src="static/assets/js/bootstrap.bundle.min.js"></script>
+
+    <script src="static/assets/vendor/owl-carousel/js/owl.carousel.min.js"></script>
+
+    <script src="static/assets/vendor/wow/wow.min.js"></script>
+
+    <script src="static/assets/js/theme.js"></script>
+
+
+</body>
+
+</html>

@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'New.css') }}">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'layout.css') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -11,7 +14,7 @@
 
     <title>Amzyee</title>
     <link rel="stylesheet" href="{{ url_for('static', filename = 'Register.css') }}">
-
+    <link rel="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
     <link rel="stylesheet" href="/static/assets/css/maicons.css">
 
     <link rel="stylesheet" href="/static/assets/css/bootstrap.css">
@@ -21,7 +24,16 @@
     <link rel="stylesheet" href="/static/assets/vendor/animate/animate.css">
 
     <link rel="stylesheet" href="/static/assets/css/theme.css">
+
+
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+
 <header>
     <div class="topbar">
 
@@ -47,7 +59,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
 
-        <img src="static\images\logo.png" width="60" height="60" alt="">
+        <img src="/static/images/logo.png" width="60" height="60" alt="">
         <a class="navbar-brand" href="#"><span class="text-primary">Amzyee</span></a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupport" aria-controls="navbarSupport" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +76,7 @@
                     <a class="nav-link" href="{{ url_for('loginRegister') }}">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-primary ml-lg-3" href="{{ url_for('contact') }}">Login / Register</a>
+                    <a class="btn btn-primary ml-lg-3 login-button" href="{{ url_for('contact') }}">Login / Register</a>
                 </li>
             </ul>
         </div>
@@ -73,38 +85,63 @@
         <!-- .container -->
     </nav>
     <br>
+</header>
+
+<body>
+
     <br>
-    <div class="register">
-        <div class="container-fluid" style="padding-left:15%;padding-right:15%; padding-top: 6%;padding-bottom: 6%;">
-            <div class="row" style="background-color:rgb(1, 1, 68)">
-                <div class="col-6 left-side">
-                    <div class="phone">
+    <br> {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %} {{ message }} {% endfor %} {% endif %} {% endwith %}
+    <center>--------------- Please select 15 minutes slot ---------------
+        <br>
 
-                    </div>
-                </div>
-                <div class="col-4" style="background-color:white;">
-                    <form action="{{ url_for('PatientLogin') }}" method="post" autocomplete="off">
-                        <H3 class="Heading">Login</H3>
-                        <br>
-                        <br>
-                        <input class="inputs" type="text" placeholder="Name" id="username" name="username">
-                        <br>
+        <div style="color: red; font-size: larger;">Doctor Name : {{Doctor_Detail['D_Name']}}</div>
+        <br>
+        <br> {{Doctor_Detail['Start_Time']}}:00 hrs <br> {% set count = [] %}
+        <br> {% for i in Day %} {% set __ = count.append(1) %} {% set z=count|length %} {% if i=='1' %}
 
-                        <br>
-                        <input class="inputs" type="password" placeholder=" Password" id="password" name="password">
-                        <br>
 
-                        <br>
-                        <div class="msg">{{ msg }}</div>
-                        <br>
-                        <button class="submit " type="submit" value="PatientLogin">Login</button>
-                    </form>
-                </div>
-                <div class="col-2 left-side"></div>
-            </div>
-        </div>
-    </div>
-    </div>
-    </body>
+        <a href="{{ url_for('SelectSlot',value=z)}}"> <button class="log" disabled style="background-color:red">{{z}} Booked</button></a>
+        {% else %}
+        <a href="{{ url_for('SelectSlot',value=z)}}"> <button class="log" style="background-color:green" value=count>{{z}} Available</button> </a>
+        {% endif %} {% endfor %}
+        <br> {{Doctor_Detail['End_Time']}}:00 hrs
+
+
+
+    </center>
+
+</body>
+<style>
+    .login-button {
+        color: #fff !important;
+        background-color: #07024b !important;
+        border-color: transparent !important;
+    }
+    
+    .log2 {
+        font-weight: bold;
+        background-color: #fff !important;
+        color: #07024b !important;
+        border-color: white !important;
+    }
+    
+    .log {
+        color: #fff !important;
+        border-color: transparent !important;
+        width: fit-content !important;
+        margin-left: 2% !important;
+        margin-right: 2% !important;
+        margin-top: 2% !important;
+        margin-bottom: 2% !important;
+    }
+    
+    a {
+        color: gray !important;
+    }
+    
+    .text-primary {
+        color: #100e42 !important;
+    }
+</style>
 
 </html>

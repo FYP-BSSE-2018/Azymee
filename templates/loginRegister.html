@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="copyright" content="MACode ID, https://macodeid.com/">
+
+    <title>Amzyee</title>
+
+    <link rel="stylesheet" href="/static/assets/css/maicons.css">
+
+    <link rel="stylesheet" href="/static/assets/css/bootstrap.css">
+
+    <link rel="stylesheet" href="/static/assets/vendor/owl-carousel/css/owl.carousel.css">
+
+    <link rel="stylesheet" href="/static/assets/vendor/animate/animate.css">
+
+    <link rel="stylesheet" href="/static/assets/css/theme.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'index.css') }}">
+</head>
+<!-- Image and text -->
+
+<body>
+    <header>
+        <div class="topbar">
+
+            <div class="row">
+                <div class="col-sm-8 text-sm">
+                    <div class="site-info">
+                        <a href="#"><span class="mai-call text-primary"></span>0320-9045947</a>
+                        <span class="divider">|</span>
+                        <a href="#"><span class="mai-mail text-primary"></span> fyp-sp18-bsse@gmail.com</a>
+                    </div>
+                </div>
+                <div class="col-sm-4 text-right text-sm">
+                    <div class="social-mini-button">
+                        <a href="#"><span class="mai-logo-facebook-f"></span></a>
+                        <a href="#"><span class="mai-logo-twitter"></span></a>
+                        <a href="#"><span class="mai-logo-dribbble"></span></a>
+                        <a href="#"><span class="mai-logo-instagram"></span></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+
+            <img src="static\images\logo.png" width="60" height="60" alt="">
+            <a class="navbar-brand" href="#"><span class="text-primary">Amyzee</span></a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupport" aria-controls="navbarSupport" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupport">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary ml-lg-3" href="#">Login / Register</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- .navbar-collapse -->
+
+            <!-- .container -->
+        </nav>
+    </header>
+    <div class="page-hero bg-image overlay-dark" style="background-image: url('static/loginRegister.png');">
+        <div class="hero-section">
+            <div class="container text-center wow zoomIn">
+                <div class="container mt-5 mb-3 pictures" style="width:fit-content;">
+                    <center>
+                        <h1>
+                            <u>Please Choose !</u>
+                        </h1>
+                        <form>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="col flip-card c">
+                                            <div class="flip-card-inner">
+                                                <div class="flip-card-front">
+                                                    <img alt="Patient" src="static\images\patient.PNG" class="img">
+                                                </div>
+                                                <div class="flip-card-back">
+                                                    <br>
+                                                    <br>
+                                                    <h1>
+                                                        <u>Patient</u>
+                                                    </h1>
+                                                    <br>
+                                                    <button class="login-button">
+                                                    <a href="{{ url_for('PatientLogin') }}">Login</a>
+                                                </button>
+                                                    <br>
+                                                    <br>
+                                                    <a class="Register" href="{{ url_for('Patientregister') }}" style="color: red !important;float: right;margin-right: 5%;">Register Here</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="col flip-card c">
+                                            <div class="flip-card-inner">
+                                                <div class="flip-card-front">
+                                                    <img alt="Doctor" src="/static/images/doctor.PNG" class="img">
+                                                </div>
+                                                <div class="flip-card-back">
+                                                    <br>
+                                                    <br>
+                                                    <h1>
+                                                        <u>Doctor</u>
+                                                    </h1>
+                                                    <br>
+                                                    <button class="login-button">
+                                                <a href="{{ url_for('DoctorLogin') }}">Login</a>
+                                            </button>
+                                                    <br>
+                                                    <br>
+                                                    <a class="Register" href="{{ url_for('DoctorRegister') }}" style="color: red !important;float: right;margin-right: 5%;">Register Here</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                </div>
+
+
+
+            </div>
+
+
+            </center>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br.></br.>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="static/assets/js/jquery-3.5.1.min.js"></script>
+
+    <script src="static/assets/js/bootstrap.bundle.min.js"></script>
+
+    <script src="static/assets/vendor/owl-carousel/js/owl.carousel.min.js"></script>
+
+    <script src="static/assets/vendor/wow/wow.min.js"></script>
+
+    <script src="static/assets/js/theme.js"></script>
+
+</body>
+
+</html>

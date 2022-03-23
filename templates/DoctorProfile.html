@@ -2,73 +2,194 @@
 <html>
 
 <head>
-    <!DOCTYPE html>
-    <html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename = 'DoctorProfile.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    </head>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'New.css') }}">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'layout.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="copyright" content="MACode ID, https://macodeid.com/">
+
+    <title>Amzyee</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'Register.css') }}">
+    <link rel="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/assets/css/maicons.css">
+
+    <link rel="stylesheet" href="/static/assets/css/bootstrap.css">
+
+    <link rel="stylesheet" href="/static/assets/vendor/owl-carousel/css/owl.carousel.css">
+
+    <link rel="stylesheet" href="/static/assets/vendor/animate/animate.css">
+
+    <link rel="stylesheet" href="/static/assets/css/theme.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'PatientProfile.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'PatientAppointment.css') }}">
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
+<header>
+    <div class="topbar">
 
-<body>
-    <nav class="navbar ">
-        <a class="navbar-brand" href="#" style="color:white !important">
-            <img src="static/homepage/logo.png" width="60" height="60" alt="">
-            <em> Amzyee</em>
-        </a>
+        <div class="row" style="margin-left: 2%;">
+            <div class="col-sm-8 text-sm">
+                <div class="site-info">
+                    <a href="#"><span class="mai-call text-primary"></span>0320-9045947</a>
+                    <span class="divider">|</span>
+                    <a href="#"><span class="mai-mail text-primary"></span> fyp-sp18-bsse@gmail.com</a>
+                </div>
+            </div>
+            <div class="col-sm-4 text-right text-sm">
+                <div class="social-mini-button">
+                    <a href="#"><span class="mai-logo-facebook-f"></span></a>
+                    <a href="#"><span class="mai-logo-twitter"></span></a>
+                    <a href="#"><span class="mai-logo-dribbble"></span></a>
+                    <a href="#"><span class="mai-logo-instagram"></span></a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+
+        <img src="static\images\logo.png" width="60" height="60" alt="">
+        <a class="navbar-brand" href="#"><span class="text-primary">Amzyee</span></a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupport" aria-controls="navbarSupport" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupport">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('loginRegister') }}">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-primary ml-lg-3 x" href="{{ url_for('contact') }}">Login / Register</a>
+                </li>
+            </ul>
+        </div>
+        <!-- .navbar-collapse -->
+
+        <!-- .container -->
     </nav>
     <br>
-    <div class="container mt-5 mb-3 pictures">
-        <center>
-            <h1>
-                <u>Welcome {{name}} !</u>
-            </h1>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Patient Name</th>
-                        <th scope="col">Date of Birth</th>
-                        <th scope="col">Patient Gender</th>
-                        <th scope="col">Predicted Disease</th>
-                        <th scope="col">Day</th>
-                        <th scope="col">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% set y=no %} {% for x in range(y) %}
-                    <tr>
-                        {%if appointments[x]['Status']=="Active"%}
-                        <td> {{x}}</td>
-                        <td> {{lis[x]['P_Name']}}</td>
-                        <td> {{lis[x]['P_DateOfBirth']}}</td>
-                        <td> {{lis[x]['P_Gender']}}</td>
-                        <td> {{lis[x]['P_History']}}</td>
-                        <td> {{appointments[x]['Day']}}</td>
-                        {% set x=appointments[x]['A_ID']%}
-                        <td>
-                            <button class="Reject">
-                                        <b>
-                                            <a href="{{url_for('Reject', id=x)}}">Reject</a>
-                                        </b>
-                                    </button>
-                        </td>
-                        <td>
-                            <button class="Confirm">
-                                        <b>
-                                            <a href="{{url_for('Confirm', id=x)}}">Confirm</a>
-                                        </b>
-                                    </button>
-                        </td>
-                        {% endif %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+</header>
+
+<body>
+    <div style=" background-image: url(/static/images/appoint.png);
+    background-size: cover;
+    background-repeat: inherit;
+    height: 500px;">
+        {% if no !=0 %}
+        <div class="container-fluid mt-5 mb-3 pictures">
+            <center>
+                <h1>
+                    <u>Welcome {{name}} !</u>
+
+
+                </h1>
+                {% with messages = get_flashed_messages() %} {% if messages %}
+                <p style="color: red;">{{messages}}</p>
+                {% endif %} {% endwith %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Doctor Name</th>
+                            <th scope="col"> Predicted Disease</th>
+                            <th scope="col">Day</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for x in range (no)%}
+                        <tr>
+                            <td> {{x}}</td>
+                            <td> {{Names[x]}}</td>
+                            <td> {{Diseases[x]}}</td>
+                            <td> {{Day[x]}}</td>
+                            <td> {{Timing[x]}}</td>
+                            <td> {{Status[x]}}</td>
+                            {% set z=ID[x] %}
+
+                            <td>
+                                <button class=" btn btn-primary ml-lg-3 Reject">
+                                            <b>
+                                                <a class="x" href="{{url_for('Delete', id=z)}}">Reject</a>
+                                            </b>
+                                        </button>
+                            </td>
+
+                            <td>
+                                <button class=" btn btn-primary ml-lg-3 Confirm">
+                                            <b>
+                                                <a class="x" href="{{url_for('Confirm', id=z)}}">Delete</a>
+                                            </b>
+                                        </button>
+                            </td>
+
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+
+        </div>
     </div>
+    {% else %}
+    <center>
+        <div class="new">
+            <h1>You don't have any appointments </h1>
+            {% endif %}
+        </div>
+    </center>
 </body>
+
+<style>
+    .x {
+        color: white !important;
+    }
+    
+    .log2 {
+        font-weight: bold;
+        background-color: #fff !important;
+        color: #07024b !important;
+        border-color: white !important;
+    }
+    
+    .log {
+        color: #fff !important;
+        background-color: #07024b !important;
+        border-color: transparent !important;
+    }
+    
+    .new-button {
+        border-radius: 15%;
+        margin-left: 35%;
+        font-size: x-large;
+        background-color: red;
+        border: none
+    }
+    
+    a {
+        color: gray !important;
+    }
+    
+    .text-primary {
+        color: #100e42 !important;
+    }
+</style>
 
 </html>
